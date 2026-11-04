@@ -69,9 +69,19 @@ export default function ContactForm() {
       const res = await fetch(site.formEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ name: data.name.trim(), email: data.email.trim(), type: data.type, message: data.message.trim(), _subject: `Nuovo progetto: ${data.type}` }),
+        body: JSON.stringify({
+          Nome: data.name.trim(),
+          email: data.email.trim(),
+          "Tipo di progetto": data.type,
+          Messaggio: data.message.trim(),
+          _replyto: data.email.trim(),
+          _subject: `Portfolio · nuovo messaggio da ${data.name.trim()}`,
+          _template: "table",
+          _captcha: "false",
+        }),
       });
-      if (!res.ok) throw new Error(String(res.status));
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || String(out.success) === "false") throw new Error(out.message || String(res.status));
       setData(EMPTY);
       setTouched({});
       setStatus({ state: "success", msg: "Messaggio inviato. Ti rispondo entro 24-48 ore." });

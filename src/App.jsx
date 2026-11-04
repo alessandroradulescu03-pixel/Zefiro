@@ -6,7 +6,6 @@ import { useReducedMotion } from "./hooks/useMotion.js";
 import Loader from "./components/Loader.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
-import Cursor from "./components/Cursor.jsx";
 import PageTransition from "./components/PageTransition.jsx";
 import Home from "./pages/Home.jsx";
 import ProjectDetail from "./components/ProjectDetail.jsx";
@@ -89,7 +88,6 @@ function Shell() {
         Vai al contenuto
       </a>
       <Loader />
-      <Cursor />
       <Navbar />
       <main id="main" tabIndex={-1}>
         <Routes>

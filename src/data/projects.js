@@ -46,8 +46,12 @@ export const projects = [
     location: "Covo (BG)",
     role: "Design & development",
     cover: "",
-    gallery: [],
-    demoUrl: "", // TODO: indirizzo della demo (non viene mai mostrato)
+    gallery: [
+      { src: "projects/padania-tuning/desktop.webp", alt: "Padania Tuning — home, desktop", device: "desktop" },
+      { src: "projects/padania-tuning/mobile.webp", alt: "Padania Tuning — home, smartphone", device: "mobile" },
+      { src: "projects/padania-tuning/desktop-2.webp", alt: "Padania Tuning — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/PadaniaTuning/",
     demoMode: "embed",
     colors: { bg: "#0E0F12", fg: "#E7EAEE", accent: "#B9C0CA" },
     technologies: ["HTML", "CSS", "JavaScript", "Stripe", "GitHub Pages"],
@@ -65,6 +69,222 @@ export const projects = [
     ],
   },
   {
+    id: "mery-drift",
+    number: "",
+    title: "Mery Drift",
+    category: "Motorsport / Drift Experience",
+    description:
+      "Sito multipagina per una nuova realtà di drift su pista: scuola, noleggio auto e accessi.",
+    type: "concept",
+    status: "in-development",
+    featured: true,
+    year: 2026,
+    location: "Covo (BG)",
+    role: "Design & development",
+    cover: "",
+    gallery: [
+      { src: "projects/mery-drift/desktop.webp", alt: "Mery Drift — home, desktop", device: "desktop" },
+      { src: "projects/mery-drift/mobile.webp", alt: "Mery Drift — home, smartphone", device: "mobile" },
+      { src: "projects/mery-drift/desktop-2.webp", alt: "Mery Drift — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/MeryDrift/",
+    demoMode: "embed",
+    colors: { bg: "#120A1A", fg: "#F6EEF8", accent: "#E8188C" },
+    technologies: ["HTML", "CSS", "JavaScript", "GitHub Pages"],
+    overview:
+      "Mery Drift è un'attività di drift appena nata dentro il circuito MXE.45 di Covo, con una pista a forma di 8. Il sito presenta la scuola con istruttori qualificati, il noleggio auto, il noleggio pista e gli accessi. È una proposta in attesa di conferma.",
+    objective:
+      "Far capire in pochi secondi cosa si può fare in pista e quanto costa, con i prezzi sempre visibili, e trasmettere l'energia del drift fin dal primo schermo.",
+    visualDirection:
+      "Colori del brand: rosa e viola su fondo scuro, con accenti blu. Titoli condensati e corsivi che richiamano il movimento in traverso.",
+    features: [
+      "Struttura su più pagine: scuola, noleggio, pista, orari",
+      "Prezzi chiari e sempre visibili",
+      "Orari condivisi con il circuito MXE.45",
+      "Pensato prima per lo smartphone",
+    ],
+  },
+  {
+    id: "mxe45",
+    number: "",
+    title: "MXE.45",
+    category: "Motorsport / Motocross",
+    description:
+      "Sito per un circuito di motocross: orari della settimana, pista, info e come arrivare.",
+    type: "concept",
+    status: "in-development",
+    featured: false,
+    year: 2026,
+    location: "Covo (BG)",
+    role: "Design & development",
+    cover: "",
+    gallery: [
+      { src: "projects/mxe45/desktop.webp", alt: "MXE.45 — home, desktop", device: "desktop" },
+      { src: "projects/mxe45/mobile.webp", alt: "MXE.45 — home, smartphone", device: "mobile" },
+      { src: "projects/mxe45/desktop-2.webp", alt: "MXE.45 — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/Mxe/",
+    demoMode: "embed",
+    colors: { bg: "#EEF0F3", fg: "#0D0F14", accent: "#1F3FD6" },
+    technologies: ["HTML", "CSS", "JavaScript", "GitHub Pages"],
+    overview:
+      "MXE.45 è la pista di motocross di Covo, nella stessa struttura di Mery Drift. Il sito raccoglie in un posto solo le informazioni che i piloti chiedono di continuo: quando si gira, com'è la pista e come arrivare. È una proposta in attesa di conferma.",
+    objective:
+      "Rispondere subito alla domanda principale, cioè se oggi la pista è aperta, e ridurre le richieste ripetute via messaggio.",
+    visualDirection:
+      "Fondo chiaro, nero e blu racing, tipografia larga e inclinata con bande diagonali che ricordano le grafiche delle moto da cross.",
+    features: [
+      "Stato della pista in evidenza (aperta o chiusa) con gli orari della settimana",
+      "Pagine dedicate a pista, orari, info e come arrivare",
+      "Collegamento a Mery Drift, dentro la stessa struttura",
+      "Contatti diretti via WhatsApp e social",
+    ],
+  },
+  {
+    id: "lunar-detailing",
+    number: "",
+    title: "Lunar Detailing Lab",
+    category: "Automotive / Detailing",
+    description:
+      "One-page per un laboratorio di pellicolatura e cura estetica dell'auto.",
+    type: "concept",
+    status: "demo",
+    featured: true,
+    year: 2026,
+    location: "Cortenuova (BG)",
+    role: "Concept, design & development",
+    cover: "",
+    gallery: [
+      { src: "projects/lunar-detailing/desktop.webp", alt: "Lunar Detailing Lab — home, desktop", device: "desktop" },
+      { src: "projects/lunar-detailing/mobile.webp", alt: "Lunar Detailing Lab — home, smartphone", device: "mobile" },
+      { src: "projects/lunar-detailing/desktop-2.webp", alt: "Lunar Detailing Lab — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/LunarDetailing/",
+    demoMode: "embed",
+    colors: { bg: "#0B1A33", fg: "#E9ECF2", accent: "#C7CCD6" },
+    technologies: ["React", "TypeScript", "Vite", "Framer Motion", "GitHub Pages"],
+    overview:
+      "Lunar Detailing Lab si occupa di pellicolatura, oscuramento vetri e cura estetica dell'auto, ma non aveva un sito. Ho preparato questo concept di mia iniziativa da proporre al titolare. Le foto sono dimostrative.",
+    objective:
+      "Presentare i servizi come un lavoro di precisione e portare il visitatore alla richiesta di preventivo.",
+    visualDirection:
+      "Identità «Fasi»: sezioni blu notte alternate a sezioni argento lunare, titoli in Bodoni e un menu a dock in basso, come in un'app.",
+    features: [
+      "Servizi: pellicolatura, oscuramento vetri, cura estetica",
+      "Animazioni allo scroll con Framer Motion",
+      "Menu a dock fisso in basso",
+      "Contenuti tutti in un unico file dati, facili da aggiornare",
+    ],
+  },
+  {
+    id: "ssw",
+    number: "",
+    title: "SSW — Stay Sideways",
+    category: "Fashion / Streetwear",
+    description:
+      "Concept e-commerce per un brand di abbigliamento in edizione limitata, elegante e minimal.",
+    type: "concept",
+    status: "demo",
+    featured: true,
+    year: 2026,
+    location: "Italia",
+    role: "Concept, design & development",
+    cover: "",
+    gallery: [
+      { src: "projects/ssw/desktop.webp", alt: "SSW — home, desktop", device: "desktop" },
+      { src: "projects/ssw/mobile.webp", alt: "SSW — home, smartphone", device: "mobile" },
+      { src: "projects/ssw/desktop-2.webp", alt: "SSW — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/SSW/",
+    demoMode: "embed",
+    colors: { bg: "#3F4630", fg: "#F4F1EA", accent: "#D9D3C3" },
+    technologies: ["HTML", "CSS", "JavaScript"],
+    overview:
+      "SSW è un brand nato dalla passione per il motorsport, con capi in edizione limitata e un primo drop legato ai 1000 follower. Ho preparato una bozza del sito e l'ho rivista sul feedback del referente: niente intro con le auto, un'immagine elegante e minimal per un pubblico adulto.",
+    objective:
+      "Far percepire il brand come abbigliamento essenziale e curato, non come merchandise, e accompagnare il lancio del primo drop.",
+    visualDirection:
+      "Verde oliva, crema e tanto spazio vuoto. Un serif elegante per i titoli, accostato a un condensato pesante per i momenti di rottura.",
+    features: [
+      "Drop 01 con contatore dei follower",
+      "Collezione, lookbook e storia del brand",
+      "Carrello e iscrizione alla newsletter",
+      "Seconda versione costruita sul feedback del cliente",
+    ],
+  },
+  {
+    id: "soprani-trasporti",
+    number: "",
+    title: "Soprani Trasporti",
+    category: "Logistics / Transport",
+    description:
+      "Concept per un'azienda di autotrasporto e logistica: servizi, flotta e richiesta di preventivo.",
+    type: "concept",
+    status: "demo",
+    featured: true,
+    year: 2026,
+    location: "Cortenuova (BG)",
+    role: "Concept, design & development",
+    cover: "",
+    gallery: [
+      { src: "projects/soprani-trasporti/desktop.webp", alt: "Soprani Trasporti — home, desktop", device: "desktop" },
+      { src: "projects/soprani-trasporti/mobile.webp", alt: "Soprani Trasporti — home, smartphone", device: "mobile" },
+      { src: "projects/soprani-trasporti/desktop-2.webp", alt: "Soprani Trasporti — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/sopraniTrasporti/",
+    demoMode: "embed",
+    colors: { bg: "#0A1A3F", fg: "#F2F5FA", accent: "#2A6DF4" },
+    technologies: ["HTML", "CSS", "JavaScript"],
+    overview:
+      "Soprani Trasporti fa autotrasporto merci in Italia e in Europa dal 1996, con magazzino a Cortenuova. Il sito attuale è poco più di un biglietto da visita: ho preparato questo concept per mostrare come potrebbe presentarsi un'azienda con quella storia.",
+    objective:
+      "Spiegare in modo chiaro i due servizi, trasporto e deposito, e trasformare le visite in richieste di preventivo. In più, uno spazio per cercare autisti.",
+    visualDirection:
+      "Blu notte e blu elettrico, una trama di punti che richiama le rotte e una tipografia solida, da azienda affidabile.",
+    features: [
+      "Servizi di trasporto nazionale, internazionale e deposito",
+      "Sezione flotta e mezzi propri",
+      "Richiesta di preventivo",
+      "Sezione «Lavora con noi» per gli autisti",
+    ],
+  },
+  {
+    id: "padania-checkin",
+    number: "",
+    title: "Padania Tuning — Check-in",
+    category: "Events / Web App",
+    description:
+      "Web app per gestire gli ingressi il giorno dell'evento: scansione QR, lista iscritti e statistiche.",
+    type: "client",
+    status: "in-development",
+    featured: false,
+    year: 2026,
+    location: "Covo (BG)",
+    role: "Design & development",
+    cover: "",
+    gallery: [
+      { src: "projects/padania-checkin/desktop.webp", alt: "Check-in Padania Tuning — home, desktop", device: "desktop" },
+      { src: "projects/padania-checkin/mobile.webp", alt: "Check-in Padania Tuning — home, smartphone", device: "mobile" },
+      { src: "projects/padania-checkin/desktop-2.webp", alt: "Check-in Padania Tuning — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "",
+    demoMode: "request",
+    colors: { bg: "#0B0B0C", fg: "#EDEDED", accent: "#B9C0CA" },
+    technologies: ["HTML", "CSS", "JavaScript", "PWA", "SheetJS"],
+    overview:
+      "Lo strumento che lo staff di Padania Tuning usa all'ingresso dell'evento, collegato alle iscrizioni del sito. Funziona dal telefono come un'app e salva tutto sul dispositivo. Contiene dati degli iscritti, per questo l'accesso è protetto e la demo è su richiesta.",
+    objective:
+      "Far entrare tante auto in poco tempo, senza fogli di carta e senza perdere il conto di chi è già arrivato.",
+    visualDirection:
+      "Interfaccia scura e sobria, coerente con il brand, con pulsanti grandi pensati per l'uso con una mano.",
+    features: [
+      "Scansione dei QR code con la fotocamera",
+      "Import degli iscritti da Excel ed export in Excel e JSON",
+      "Ricerca per iniziali, filtri e barra di avanzamento",
+      "Salvataggio automatico e annullamento dell'ultima azione",
+    ],
+  },
+  {
     id: "mrc-automotive",
     number: "",
     title: "MRC Automotive",
@@ -78,10 +298,14 @@ export const projects = [
     location: "Grumello del Monte (BG)",
     role: "Concept, design & development",
     cover: "",
-    gallery: [],
-    demoUrl: "", // TODO: indirizzo della demo (non viene mai mostrato)
+    gallery: [
+      { src: "projects/mrc-automotive/desktop.webp", alt: "MRC Automotive — home, desktop", device: "desktop" },
+      { src: "projects/mrc-automotive/mobile.webp", alt: "MRC Automotive — home, smartphone", device: "mobile" },
+      { src: "projects/mrc-automotive/desktop-2.webp", alt: "MRC Automotive — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/MRC/",
     demoMode: "embed",
-    colors: { bg: "#051416", fg: "#D5EFED", accent: "#2FC4B7" },
+    colors: { bg: "#0A0C0E", fg: "#EEF2F2", accent: "#2FC4B7" },
     technologies: ["HTML", "CSS", "JavaScript"],
     overview:
       "MRC Automotive è un'officina che unisce manutenzione e diagnostica alle preparazioni sportive, con vendita di componenti racing e un servizio di compravendita e importazione auto. Ho preparato questo concept di mia iniziativa, per mostrare ai titolari come l'attività potrebbe presentarsi online.",
@@ -110,7 +334,11 @@ export const projects = [
     location: "Romano di Lombardia (BG)",
     role: "Concept, design & development",
     cover: "",
-    gallery: [],
+    gallery: [
+      { src: "projects/district-lab/desktop.webp", alt: "District Lab — home, desktop", device: "desktop" },
+      { src: "projects/district-lab/mobile.webp", alt: "District Lab — home, smartphone", device: "mobile" },
+      { src: "projects/district-lab/desktop-2.webp", alt: "District Lab — sezione interna", device: "desktop" },
+    ],
     demoUrl: "https://alessandroradulescu03-pixel.github.io/DistrictLab/",
     demoMode: "embed",
     colors: { bg: "#ECECE8", fg: "#0B0B0B", accent: "#0B0B0B" },
@@ -142,22 +370,27 @@ export const projects = [
     location: "Romano di Lombardia (BG)",
     role: "Concept, design & development",
     cover: "",
-    gallery: [],
-    demoUrl: "", // TODO: indirizzo della demo (non viene mai mostrato)
+    gallery: [
+      { src: "projects/zclean/desktop.webp", alt: "ZClean — home, desktop", device: "desktop" },
+      { src: "projects/zclean/mobile.webp", alt: "ZClean — home, smartphone", device: "mobile" },
+      { src: "projects/zclean/desktop-2.webp", alt: "ZClean — sezione interna", device: "desktop" },
+    ],
+    demoUrl: "https://alessandroradulescu03-pixel.github.io/zClean/",
     demoMode: "embed",
-    colors: { bg: "#E6F4FF", fg: "#06275A", accent: "#15A9E0" },
+    colors: { bg: "#F5F8FC", fg: "#0A2A5E", accent: "#F5C21B" },
     technologies: ["HTML", "CSS", "JavaScript"],
-    // TODO: controlla che questi testi corrispondano alla demo che hai realizzato
     overview:
       "ZClean è un'impresa di pulizie professionali della bassa bergamasca. Ho progettato un concept per presentare i servizi in modo più moderno e trasformare le visite in richieste di preventivo.",
     objective:
       "Spiegare i servizi in modo semplice e rendere la richiesta di preventivo il passo più naturale della visita.",
     visualDirection:
-      "Palette fresca di azzurri, layout arioso e ordinato, coerente con il lavoro dell'azienda.",
+      "Bianco pulito, blu del logo e un giallo deciso per le azioni. Piccole animazioni a tema: spruzzini, spugna e bolle di sapone che si muovono con lo scroll.",
     features: [
-      "Pagine servizi chiare, senza termini tecnici",
-      "Richiesta di contatto sempre a portata di mano",
-      "Design responsive pensato per lo smartphone",
+      "Loader con un tergivetro che pulisce lo schermo mentre la pagina si carica",
+      "Slider prima/dopo da trascinare",
+      "Calcolatore del prezzo per le case, con prenotazione su WhatsApp già compilata",
+      "Calcolatore per le aziende: tipo di locale, metri quadri e passaggi a settimana",
+      "Zone servite, FAQ e richiesta di sopralluogo",
     ],
   },
 ];

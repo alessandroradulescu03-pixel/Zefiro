@@ -34,13 +34,10 @@ export const site = {
   // Vuoto = monogramma grafico.
   photo: "",
 
-  /* Form contatti
-     Per ricevere i messaggi nella tua casella:
-     1. crea un account gratuito su https://formspree.io
-     2. crea un form e copia l'indirizzo, es. "https://formspree.io/f/abcdwxyz"
-     3. incollalo qui sotto.
-     Finché è vuoto, il form apre l'app email del visitatore con il messaggio già scritto. */
-  formEndpoint: "",
+  /* Form contatti: i messaggi arrivano direttamente alla tua email tramite FormSubmit
+     (gratuito, senza account). La PRIMA volta che qualcuno invia il form ti arriva
+     un'email "Activate Form": cliccala una volta sola e da lì in poi arriva tutto. */
+  formEndpoint: "https://formsubmit.co/ajax/alessandro.radulescu03@gmail.com",
 };
 
 export const whatsappUrl = n => (n ? `https://wa.me/${String(n).replace(/\D/g, "")}` : "");

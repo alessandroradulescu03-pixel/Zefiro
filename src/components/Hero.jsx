@@ -9,7 +9,7 @@ import SignatureScene from "./SignatureScene.jsx";
 import "./Hero.css";
 
 export default function Hero() {
-  const { ready, goSection, go } = useApp();
+  const { ready, goSection } = useApp();
   const time = useLocalTime(site.timeZone);
   const count = String(allProjects.length).padStart(2, "0");
 
@@ -50,10 +50,6 @@ export default function Hero() {
               <p className="hero__badge"><i aria-hidden="true" />Available for new projects</p>
             )}
             <p className="hero__sub">Trasformo idee e identità aziendali in esperienze digitali progettate per distinguersi.</p>
-            <div className="hero__cta">
-              <Button href="#/work" onClick={e => { e.preventDefault(); go("/work", { title: "Case studies" }); }}>Explore my work</Button>
-              <Button href="#/contact" onClick={e => { e.preventDefault(); go("/contact", { title: "Contact" }); }} variant="ghost" icon="">Let's talk</Button>
-            </div>
           </div>
         </div>
 
