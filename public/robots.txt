@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alessandroradulescu03-pixel.github.io/portfolio/sitemap.xml

@@ -1,0 +1,51 @@
+.loader { position: fixed; inset: 0; z-index: 500; pointer-events: auto; }
+.loader__panel { position: absolute; inset: 0; transition: transform 1s var(--ease-io); }
+.loader__panel--lime { background: var(--accent); transition-delay: 0.08s; }
+.loader__panel--main {
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-block: calc(26px + env(safe-area-inset-top, 0px)) calc(26px + env(safe-area-inset-bottom, 0px));
+}
+.loader.is-exit { pointer-events: none; }
+.loader.is-exit .loader__panel { transform: translateY(-101%); }
+
+.loader__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.loader__brand { font: 500 12px var(--f-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.loader__brand b { font: 800 18px var(--f-display); color: var(--accent); letter-spacing: -0.02em; margin-right: 4px; }
+.loader__skip {
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font: 500 11px var(--f-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.loader__skip:hover { background: var(--fg); color: var(--bg); }
+
+.loader__words { display: grid; gap: 0.06em; }
+.loader__word {
+  display: block;
+  overflow: hidden;
+  font: 700 clamp(34px, 8.4vw, 136px) / 0.96 var(--f-display);
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+.loader__word > span { display: inline-block; transform: translateY(105%); transition: transform 0.8s var(--ease-out), color 0.5s; color: var(--muted-2); }
+.loader__word.is-on > span { transform: none; }
+.loader__word.is-current > span { color: var(--fg); }
+.loader__word:last-child.is-current > span { color: var(--accent); }
+
+.loader__bottom { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 20px; align-items: center; }
+.loader__count { font-size: 13px; color: var(--accent); letter-spacing: 0.1em; }
+.loader__bar { height: 1px; background: var(--line-strong); overflow: hidden; }
+.loader__bar i { display: block; height: 100%; background: var(--accent); transform-origin: left; }
+@media (max-width: 600px) {
+  .loader__bottom { grid-template-columns: auto minmax(0, 1fr); }
+  .loader__bottom .label { display: none; }
+}

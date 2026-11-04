@@ -1,0 +1,23 @@
+.ptrans { position: fixed; inset: 0; z-index: 400; pointer-events: none; }
+.ptrans__p { position: absolute; inset: 0; transform: translateY(101%); }
+.ptrans__p--lime { background: var(--accent); }
+.ptrans__p--main { background: var(--bg); display: grid; place-items: center; }
+.ptrans__label {
+  font: 700 clamp(28px, 6vw, 88px) / 1 var(--f-display);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s, transform 0.7s var(--ease-out);
+  padding-inline: 20px;
+  text-align: center;
+}
+
+.ptrans.is-cover { pointer-events: auto; }
+.ptrans.is-cover .ptrans__p { transform: none; transition: transform 0.75s var(--ease-io); }
+.ptrans.is-cover .ptrans__p--main { transition-delay: 0.08s; }
+.ptrans.is-cover .ptrans__label { opacity: 1; transform: none; transition-delay: 0.35s; }
+
+.ptrans.is-reveal .ptrans__p { transform: translateY(-101%); transition: transform 0.85s var(--ease-io); }
+.ptrans.is-reveal .ptrans__p--lime { transition-delay: 0.08s; }
+.ptrans.is-reveal .ptrans__label { opacity: 1; transform: none; }
