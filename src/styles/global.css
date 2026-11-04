@@ -17,7 +17,7 @@ body {
   font-feature-settings: "ss01";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 img, svg, canvas { display: block; max-width: 100%; }
 a { color: inherit; }
@@ -64,7 +64,7 @@ main:focus { outline: none; }
   text-decoration: none;
   border-radius: 6px;
 }
-.skip-link:focus { top: calc(16px + env(safe-area-inset-top, 0px)); }
+.skip-link:focus-visible { top: calc(16px + env(safe-area-inset-top, 0px)); }
 
 /* bordo superiore del telefono (notch) sempre coperto */
 body::before {

@@ -1,4 +1,4 @@
-.philo { position: relative; height: 210svh; background: var(--accent); color: var(--on-accent); }
+.philo { position: relative; height: 175svh; background: var(--accent); color: var(--on-accent); }
 .philo__sticky { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; }
 .philo__in { display: grid; gap: clamp(22px, 4svh, 60px); padding-block: calc(var(--nav-h) + 10px) 30px; }
 .philo .label { color: rgba(243, 241, 236, 0.7); }

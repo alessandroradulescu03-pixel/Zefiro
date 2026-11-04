@@ -28,11 +28,12 @@ function Block({ n, label, title, children, className = "" }) {
 function Screens({ project }) {
   if (project.gallery && project.gallery.length) {
     return (
-      <div className="cs-gallery">
+      <div className="cs-gallery" style={{ "--tint": project.colors?.bg || "var(--surface)" }}>
         {project.gallery.map((g, i) => (
           <Reveal as="figure" key={g.src} delay={i * 80} className={`cs-shot cs-shot--${g.device || "desktop"}`}>
-            <img src={asset(g.src)} alt={g.alt || project.title} loading="lazy" decoding="async" />
-            {g.alt && <figcaption className="label">{g.alt}</figcaption>}
+            <div className="cs-shot__frame">
+              <img src={asset(g.src)} alt={g.alt || project.title} loading="lazy" decoding="async" />
+            </div>
           </Reveal>
         ))}
       </div>

@@ -58,7 +58,6 @@ export default function Hero() {
             <span className="hero__scroll-line" aria-hidden="true" />
             <span className="label">Scroll to explore</span>
           </a>
-          <span className="label hero__index">Case studies 01 — {count}</span>
         </div>
       </div>
     </section>

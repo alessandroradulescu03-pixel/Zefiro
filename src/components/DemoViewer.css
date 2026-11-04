@@ -22,3 +22,4 @@
   .demo__dots, .demo__tools { display: none; }
   .demo__panel { height: 100%; border-radius: 10px; }
 }
+.demo__veil { position: absolute; inset: 0; z-index: 2; }

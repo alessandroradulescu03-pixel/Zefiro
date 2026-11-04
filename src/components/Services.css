@@ -1,4 +1,4 @@
-.services { padding-block: clamp(110px, 13vw, 200px); background: var(--surface); }
+.services { padding-block: clamp(80px, 9vw, 140px); background: var(--surface); }
 .services__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(14px, 2vw, 28px); row-gap: 50px; align-items: start; }
 .services__aside { grid-column: 1 / span 5; position: sticky; top: calc(var(--nav-h) + 30px); }
 .services__head { display: grid; gap: 22px; }

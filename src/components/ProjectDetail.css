@@ -73,12 +73,24 @@
   .cs-screens { grid-template-columns: 1fr; }
   .cs-screens__tall { aspect-ratio: 4 / 4.6; }
 }
-.cs-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.cs-shot { margin: 0; border-radius: 6px; overflow: hidden; background: var(--surface); display: grid; gap: 10px; }
+.cs-gallery { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; }
+.cs-shot { position: relative; margin: 0; border-radius: 8px; overflow: hidden; display: grid; place-items: center; padding: clamp(18px, 3.4vw, 56px); background: color-mix(in srgb, var(--tint) 14%, var(--surface)); }
 .cs-shot--desktop:first-child { grid-column: 1 / -1; }
-.cs-shot img { width: 100%; height: auto; }
-.cs-shot figcaption { padding: 0 14px 14px; }
-@media (max-width: 640px) { .cs-gallery { grid-template-columns: 1fr; } }
+.cs-shot__frame { position: relative; width: 100%; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.45); }
+.cs-shot--desktop .cs-shot__frame { padding-top: 26px; background: #e9e6df; }
+.cs-shot--desktop .cs-shot__frame::before { content: ""; position: absolute; top: 9px; left: 12px; width: 8px; height: 8px; border-radius: 50%; background: rgba(23, 24, 28, 0.22); box-shadow: 13px 0 0 rgba(23, 24, 28, 0.22), 26px 0 0 rgba(23, 24, 28, 0.22); }
+.cs-shot img { display: block; width: 100%; height: auto; }
+/* telefono: alto quanto la riga, centrato */
+.cs-shot--mobile { min-height: 340px; grid-column: 2; grid-row: 2; }
+.cs-shot--desktop:nth-child(n+2) { grid-column: 1; grid-row: 2; }
+.cs-shot--mobile .cs-shot__frame { position: absolute; top: clamp(18px, 3vw, 44px); bottom: clamp(18px, 3vw, 44px); left: 50%; width: auto; aspect-ratio: 585 / 1266; transform: translateX(-50%); border-radius: 22px; border: 6px solid #17181c; }
+.cs-shot--mobile img { height: 100%; object-fit: cover; object-position: top; }
+@media (max-width: 640px) {
+  .cs-gallery { grid-template-columns: 1fr; }
+  .cs-shot--mobile, .cs-shot--desktop:nth-child(n+2) { grid-column: auto; grid-row: auto; }
+  .cs-shot--mobile { min-height: 0; }
+  .cs-shot--mobile .cs-shot__frame { position: relative; top: auto; bottom: auto; left: auto; transform: none; width: min(62%, 240px); }
+}
 .cs-demo-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 22px; border-radius: 6px; background: var(--surface); }
 .cs-demo-cta p { margin: 0; color: var(--muted); }
 

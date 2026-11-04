@@ -1,4 +1,4 @@
-.about { position: relative; z-index: 1; background: var(--bg); color: var(--fg); padding-block: clamp(110px, 13vw, 200px); }
+.about { position: relative; z-index: 1; background: var(--bg); color: var(--fg); padding-block: clamp(80px, 9vw, 140px); }
 
 /* griglia ritratto + testo */
 .about__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(14px, 2vw, 28px); row-gap: 56px; align-items: start; }
@@ -50,10 +50,12 @@
   .about__stats > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .about__stats > div { padding-bottom: 14px; grid-template-columns: 90px 1fr; align-items: baseline; }
   .about__facts div { grid-template-columns: 90px minmax(0, 1fr); }
+  .about__left { max-width: 300px; }
+  .about__photo { aspect-ratio: 1; }
 }
 
 /* competenze: tabella svizzera */
-.skills { margin-top: clamp(110px, 13vw, 190px); }
+.skills { margin-top: clamp(80px, 9vw, 140px); }
 .skills__head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(14px, 2vw, 28px); align-items: baseline; padding-top: 12px; border-top: 1px solid var(--fg); margin-bottom: 28px; }
 .skills__head .shead__idx { grid-column: 1 / span 2; }
 .skills__head .label { grid-column: 3 / span 4; }
@@ -86,7 +88,7 @@
 }
 
 /* metodo: linea del tempo */
-.process { margin-top: clamp(110px, 13vw, 190px); }
+.process { margin-top: clamp(80px, 9vw, 140px); }
 .process__intro { grid-column: 9 / -1; margin: 0; font-size: clamp(16px, 1.3vw, 19px); color: var(--muted); }
 @media (max-width: 800px) { .process__intro { grid-column: 1 / -1; margin-top: 10px; } }
 .process__track { position: relative; }

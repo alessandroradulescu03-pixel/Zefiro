@@ -1,6 +1,42 @@
 /* Anteprima protetta della demo: il sito si apre dentro il portfolio,
    in una cornice senza barra degli indirizzi. Il link non viene mostrato,
-   non si apre in una nuova scheda e non passa il referrer. */
+   non si apre in una nuova scheda e non passa il referrer.
+   SOLO VISUALIZZAZIONE: si può scorrere e guardare, ma niente è cliccabile
+   (link, pulsanti, form, menu disattivati). Le demo stanno sullo stesso dominio
+   del portfolio, quindi la pagina interna si può "bloccare" dall'esterno; se per
+   qualche motivo non fosse possibile, un velo trasparente copre tutta la demo. */
+
+const LOCK_CSS = `
+a, button, input, select, textarea, label, summary, form, video, audio, iframe,
+[role="button"], [role="link"], [role="tab"], [onclick], [contenteditable] { pointer-events: none !important; }
+* { cursor: default !important; -webkit-user-select: none !important; user-select: none !important; }
+`;
+
+function lockFrame(frame) {
+  try {
+    const w = frame.contentWindow;
+    const d = w.document;
+    if (!d || !d.head) return false;
+    if (!d.getElementById("__view-only")) {
+      const st = d.createElement("style");
+      st.id = "__view-only";
+      st.textContent = LOCK_CSS;
+      d.head.appendChild(st);
+      const stop = e => { e.preventDefault(); e.stopImmediatePropagation(); };
+      ["click", "auxclick", "dblclick", "submit", "contextmenu", "dragstart", "mousedown", "pointerdown", "focusin"].forEach(t =>
+        d.addEventListener(t, stop, true)
+      );
+      // tastiera: solo i tasti per scorrere
+      const scrollKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
+      d.addEventListener("keydown", e => { if (!scrollKeys.includes(e.key)) stop(e); }, true);
+      d.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach(el => el.setAttribute("tabindex", "-1"));
+      w.open = () => null;
+    }
+    return true;
+  } catch {
+    return false; // cornice non accessibile: resta il velo
+  }
+}
 import { useEffect, useRef, useState } from "react";
 import { lockScroll } from "../lib/smooth.js";
 import "./DemoViewer.css";
@@ -8,6 +44,8 @@ import "./DemoViewer.css";
 export default function DemoViewer({ project, onClose }) {
   const [device, setDevice] = useState("desktop");
   const [loaded, setLoaded] = useState(false);
+  const [locked, setLocked] = useState(false);
+  const frame = useRef(null);
   const closeBtn = useRef(null);
 
   useEffect(() => {
@@ -43,11 +81,13 @@ export default function DemoViewer({ project, onClose }) {
             src={project.demoUrl}
             title={`Demo di ${project.title}`}
             referrerPolicy="no-referrer"
-            sandbox="allow-scripts allow-same-origin allow-forms"
-            onLoad={() => setLoaded(true)}
+            sandbox="allow-scripts allow-same-origin"
+            ref={frame}
+            onLoad={() => { setLocked(lockFrame(frame.current)); setLoaded(true); }}
           />
+          {!locked && <div className="demo__veil" aria-hidden="true" />}
         </div>
-        <p className="demo__note">Anteprima riservata del progetto, visibile solo qui.</p>
+        <p className="demo__note">Solo visualizzazione · anteprima riservata del progetto, visibile solo qui.</p>
       </div>
     </div>
   );
