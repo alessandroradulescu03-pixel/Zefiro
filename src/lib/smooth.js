@@ -15,9 +15,10 @@ export function initSmooth(reduced) {
       window.removeEventListener("resize", emit);
     };
   }
+  // lerp alto = scorrimento morbido ma reattivo, senza effetto "in ritardo"
   lenis = new Lenis({
-    duration: 1.15,
-    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    lerp: 0.18,
+    wheelMultiplier: 1.1,
     smoothWheel: true,
   });
   lenis.on("scroll", emit);
@@ -42,7 +43,7 @@ export const onScroll = fn => {
 export function scrollToTarget(target, { immediate = false, offset = 0 } = {}) {
   const el = typeof target === "string" ? document.getElementById(target) : target;
   if (lenis) {
-    lenis.scrollTo(el ?? 0, { immediate, offset, duration: 1.4, force: true });
+    lenis.scrollTo(el ?? 0, { immediate, offset, duration: 1.1, force: true });
     return;
   }
   const top = typeof el === "number" ? el : el ? el.getBoundingClientRect().top + window.scrollY + offset : 0;

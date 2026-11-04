@@ -22,11 +22,10 @@ export const site = {
   email: "alessandro.radulescu03@gmail.com",
 
   socials: {
-    // TODO: es. "https://www.instagram.com/tuonome/"
-    instagram: "",
+    instagram: "https://www.instagram.com/radulescualessandro/",
     // TODO: es. "https://www.linkedin.com/in/tuonome/"
     linkedin: "",
-    github: "https://github.com/alessandroradulescu03-pixel",
+    github: "",
     // TODO: numero con prefisso, solo cifre, es. "393331234567"
     whatsapp: "",
   },
