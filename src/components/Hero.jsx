@@ -6,6 +6,7 @@ import { site } from "../config/site.js";
 import { allProjects } from "../data/projects.js";
 import { Button, SplitLines } from "./ui.jsx";
 import SignatureScene from "./SignatureScene.jsx";
+import { NATALE } from "../lib/natale.js";
 import "./Hero.css";
 
 export default function Hero() {
@@ -30,7 +31,7 @@ export default function Hero() {
           <span className="hero__mark hero__mark--br" aria-hidden="true" />
           <div className="hero__scene"><SignatureScene /></div>
           <figcaption className="hero__cap">
-            <span className="label">Fig. 01 — The Digital Signature</span>
+            <span className="label">Fig. 01 — The Digital Signature{NATALE && " · Winter edition"}</span>
             <button type="button" className="hero__resign label" onClick={() => window.dispatchEvent(new Event("signature:redraw"))}>
               ↻ Re-sign
             </button>

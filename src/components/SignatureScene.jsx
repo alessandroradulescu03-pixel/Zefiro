@@ -1,6 +1,7 @@
 /* Contenitore dell'elemento 3D: carica three.js solo qui, con alternativa SVG */
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "../hooks/useMotion.js";
+import { NATALE } from "../lib/natale.js";
 
 function hasWebGL() {
   try {
@@ -25,7 +26,7 @@ export default function SignatureScene() {
     let dispose = () => {};
     import("../lib/signature3d.js")
       .then(m => {
-        if (!cancelled && host.current) dispose = m.mountSignature(host.current, { reduced });
+        if (!cancelled && host.current) dispose = m.mountSignature(host.current, { reduced, natale: NATALE });
       })
       .catch(() => !cancelled && setFallback(true));
     return () => {

@@ -1,5 +1,5 @@
 /* Form di contatto reale:
-   - con site.formEndpoint (Formspree) invia davvero il messaggio e mostra l'esito
+   - con site.formEndpoint (FormSubmit) o site.web3formsKey (Web3Forms) invia davvero il messaggio e mostra l'esito
    - senza endpoint apre l'app email del visitatore con il messaggio già scritto, e lo dice chiaramente */
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -65,23 +65,33 @@ export default function ContactForm() {
     }
 
     setStatus({ state: "sending", msg: "Invio in corso…" });
+    const fields = {
+      Nome: data.name.trim(),
+      email: data.email.trim(),
+      "Tipo di progetto": data.type,
+      Messaggio: data.message.trim(),
+    };
+    const subject = `Portfolio · nuovo messaggio da ${data.name.trim()}`;
     try {
-      const res = await fetch(site.formEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          Nome: data.name.trim(),
-          email: data.email.trim(),
-          "Tipo di progetto": data.type,
-          Messaggio: data.message.trim(),
-          _replyto: data.email.trim(),
-          _subject: `Portfolio · nuovo messaggio da ${data.name.trim()}`,
-          _template: "table",
-          _captcha: "false",
-        }),
-      });
-      const out = await res.json().catch(() => ({}));
-      if (!res.ok || String(out.success) === "false") throw new Error(out.message || String(res.status));
+      if (site.web3formsKey) {
+        // Web3Forms: risposta leggibile, errore reale se qualcosa va storto
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ access_key: site.web3formsKey, subject, from_name: "Portfolio", replyto: fields.email, ...fields }),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok || out.success === false) throw new Error(out.message || String(res.status));
+      } else {
+        // FormSubmit: invio classico del modulo (niente CORS da gestire)
+        const fd = new FormData();
+        Object.entries(fields).forEach(([k, v]) => fd.append(k, v));
+        fd.append("_replyto", fields.email);
+        fd.append("_subject", subject);
+        fd.append("_template", "table");
+        fd.append("_captcha", "false");
+        await fetch(site.formEndpoint, { method: "POST", body: fd, mode: "no-cors" });
+      }
       setData(EMPTY);
       setTouched({});
       setStatus({ state: "success", msg: "Messaggio inviato. Ti rispondo entro 24-48 ore." });

@@ -4,9 +4,10 @@ import { useApp } from "../lib/app-context.js";
 import { lockScroll } from "../lib/smooth.js";
 import { useReducedMotion } from "../hooks/useMotion.js";
 import { site } from "../config/site.js";
+import { NATALE } from "../lib/natale.js";
 import "./Loader.css";
 
-const WORDS = ["Digital design", "Development", "Experiences"];
+const WORDS = NATALE ? ["Digital design", "Development", "Buone feste"] : ["Digital design", "Development", "Experiences"];
 const DURATION = 1700;
 const KEY = "ds-intro-seen";
 
@@ -78,7 +79,7 @@ export default function Loader() {
         <div className="loader__bottom container">
           <span className="loader__count mono">{String(count).padStart(3, "0")}</span>
           <span className="loader__bar" aria-hidden="true"><i style={{ transform: `scaleX(${count / 100})` }} /></span>
-          <span className="label">The Digital Signature — {new Date().getFullYear()}</span>
+          <span className="label">{NATALE ? "Winter edition" : "The Digital Signature"} — {new Date().getFullYear()}</span>
         </div>
       </div>
     </div>

@@ -12,6 +12,8 @@ import ProjectDetail from "./components/ProjectDetail.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import WorkPage from "./pages/WorkPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
+import Natale from "./components/Natale.jsx";
+import { NATALE } from "./lib/natale.js";
 
 /* HashRouter: indirizzi tipo #/work/padania-tuning, perfetti su GitHub Pages.
    Se il browser non permette di cambiare l'indirizzo (anteprime incorporate), usa la memoria. */
@@ -99,6 +101,7 @@ function Shell() {
         </Routes>
       </main>
       <Footer />
+      {NATALE && <Natale />}
       <PageTransition phase={phase} label={label} />
     </AppContext.Provider>
   );

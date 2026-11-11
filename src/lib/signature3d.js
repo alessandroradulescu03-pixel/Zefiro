@@ -16,9 +16,11 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 import SHAPES from "./signature.json";
 
 /* palette del sito: inchiostro, blu oltremare, ardesia */
-const INK = 0x17181c;
-const BLUE = 0x2c46c4;
-const SLATE = 0x9aa3b5;
+const INK_0 = 0x17181c;
+const BLUE_0 = 0x2c46c4;
+const SLATE_0 = 0x9aa3b5;
+/* winter edition: la firma diventa un nastro rosso ceralacca, con echi abete e oro */
+const XM = { ink: 0xa81f1a, blue: 0x1f5a41, slate: 0xe3b877 };
 const easeInOut = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 function buildShapes() {
@@ -29,7 +31,10 @@ function buildShapes() {
   });
 }
 
-export function mountSignature(host, { reduced = false } = {}) {
+export function mountSignature(host, { reduced = false, natale = false } = {}) {
+  const INK = natale ? XM.ink : INK_0;
+  const BLUE = natale ? XM.blue : BLUE_0;
+  const SLATE = natale ? XM.slate : SLATE_0;
   const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.outputColorSpace = SRGBColorSpace;
@@ -63,7 +68,7 @@ export function mountSignature(host, { reduced = false } = {}) {
     envMapIntensity: 1.1,
     clippingPlanes: [clip],
   });
-  const side = new MeshPhysicalMaterial({ color: new Color(0x2a2c33), roughness: 0.4, metalness: 0.4, envMapIntensity: 0.5, clippingPlanes: [clip] });
+  const side = new MeshPhysicalMaterial({ color: new Color(natale ? 0x6e1512 : 0x2a2c33), roughness: 0.4, metalness: 0.4, envMapIntensity: 0.5, clippingPlanes: [clip] });
   const sig = new Mesh(geo, [front, side]);
 
   /* eco della firma: un'ombra blu e una ardesia, per la profondità */

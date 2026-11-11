@@ -16,6 +16,10 @@ export const site = {
   coords: "45.69°N — 9.67°E",
   timeZone: "Europe/Rome",
 
+  /* Winter edition 🎄: tema natalizio. Si accende da solo dal 1° novembre
+     e si spegne dopo il 6 gennaio. Metti false per spegnerlo subito. */
+  natale: { attivo: true },
+
   // true = mostra "Available for new projects"
   available: true,
 
@@ -34,10 +38,14 @@ export const site = {
   // Vuoto = monogramma grafico.
   photo: "",
 
-  /* Form contatti: i messaggi arrivano direttamente alla tua email tramite FormSubmit
-     (gratuito, senza account). La PRIMA volta che qualcuno invia il form ti arriva
-     un'email "Activate Form": cliccala una volta sola e da lì in poi arriva tutto. */
-  formEndpoint: "https://formsubmit.co/ajax/alessandro.radulescu03@gmail.com",
+  /* Form contatti: i messaggi arrivano alla tua email.
+     - Così com'è usa FormSubmit (gratis, senza account): la prima volta ti arriva
+       un'email "Activate Form" da cliccare una volta sola.
+     - Più affidabile: vai su https://web3forms.com, inserisci la tua email,
+       copia la "Access Key" che ti arriva e incollala in web3formsKey qui sotto.
+       Se è compilata, il sito usa Web3Forms al posto di FormSubmit. */
+  formEndpoint: "https://formsubmit.co/alessandro.radulescu03@gmail.com",
+  web3formsKey: "",
 };
 
 export const whatsappUrl = n => (n ? `https://wa.me/${String(n).replace(/\D/g, "")}` : "");

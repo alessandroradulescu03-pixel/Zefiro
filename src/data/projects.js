@@ -64,7 +64,8 @@ export const projects = [
     features: [
       "Form di iscrizione all'evento con email di conferma automatica",
       "Esportazione degli iscritti in Excel",
-      "Shop di magliette, felpe e accessori con carrello e pagamenti Stripe",
+      "Shop di magliette, felpe e accessori con carrello e pagamento Stripe dentro il sito, senza pagine esterne",
+      "Christmas Edition per il raduno di dicembre: neve, luminarie e conto alla rovescia, che si spegne da sola dopo le feste",
       "Web app di check-in per il giorno dell'evento: scansione QR, import da Excel, ricerca rapida e salvataggio automatico",
     ],
   },
@@ -182,7 +183,7 @@ export const projects = [
     title: "SSW — Stay Sideways",
     category: "Fashion / Streetwear",
     description:
-      "Concept e-commerce per un brand di abbigliamento in edizione limitata, elegante e minimal.",
+      "E-commerce per un brand streetwear nato dal drift: drop in edizione limitata, lookbook e carrello.",
     type: "concept",
     status: "demo",
     featured: true,
@@ -190,26 +191,28 @@ export const projects = [
     location: "Italia",
     role: "Concept, design & development",
     cover: "",
-    gallery: [
-      { src: "projects/ssw/desktop.webp", alt: "SSW — home, desktop", device: "desktop" },
-      { src: "projects/ssw/mobile.webp", alt: "SSW — home, smartphone", device: "mobile" },
-      { src: "projects/ssw/desktop-2.webp", alt: "SSW — sezione interna", device: "desktop" },
-    ],
+    // TODO: gli screenshot in public/projects/ssw/ sono ancora della vecchia bozza verde.
+    // Sostituiscili con quelli del sito nuovo (stessi nomi) e rimetti queste tre righe dentro gallery:
+    //   { src: "projects/ssw/desktop.webp", alt: "SSW — home, desktop", device: "desktop" },
+    //   { src: "projects/ssw/mobile.webp", alt: "SSW — home, smartphone", device: "mobile" },
+    //   { src: "projects/ssw/desktop-2.webp", alt: "SSW — sezione interna", device: "desktop" },
+    gallery: [],
     demoUrl: "https://alessandroradulescu03-pixel.github.io/SSW/",
     demoMode: "embed",
-    colors: { bg: "#3F4630", fg: "#F4F1EA", accent: "#D9D3C3" },
+    colors: { bg: "#0A0A0A", fg: "#FFFFFF", accent: "#FF1FA9" },
     technologies: ["HTML", "CSS", "JavaScript"],
     overview:
-      "SSW è un brand nato dalla passione per il motorsport, con capi in edizione limitata e un primo drop legato ai 1000 follower. Ho preparato una bozza del sito e l'ho rivista sul feedback del referente: niente intro con le auto, un'immagine elegante e minimal per un pubblico adulto.",
+      "SSW Motorsport — Stay Sideways è un brand streetwear italiano nato tra traversi e paddock, con capi in edizione limitata pensati per lei e per lui. La prima bozza era elegante e minimal; dopo il confronto con il referente l'ho rifatta da capo, con un carattere più deciso e fedele al logo.",
     objective:
-      "Far percepire il brand come abbigliamento essenziale e curato, non come merchandise, e accompagnare il lancio del primo drop.",
+      "Far uscire il Drop 01 come un vero lancio: pochi pezzi, un percorso d'acquisto semplice da telefono e un motivo per tornare al drop successivo.",
     visualDirection:
-      "Verde oliva, crema e tanto spazio vuoto. Un serif elegante per i titoli, accostato a un condensato pesante per i momenti di rottura.",
+      "Nero pieno e bianco, con il fucsia della prima S del logo come unico accento e il tricolore della scritta Motorsport. Titoli in Archivo stretto e maiuscolo, con qualche nota scritta a mano.",
     features: [
-      "Drop 01 con contatore dei follower",
-      "Collezione, lookbook e storia del brand",
-      "Carrello e iscrizione alla newsletter",
-      "Seconda versione costruita sul feedback del cliente",
+      "Drop 01 in edizione limitata, con il traguardo dei 1000 follower che lo ha sbloccato",
+      "Scheda prodotto con taglie, guida alle taglie, vestibilità e resi",
+      "Carrello con subtotale e soglia per la spedizione gratuita",
+      "Lookbook lei e lui e storia del brand",
+      "Iscrizione alla newsletter per il Drop 02, con privacy policy",
     ],
   },
   {

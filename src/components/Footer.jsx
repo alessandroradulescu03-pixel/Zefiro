@@ -4,6 +4,7 @@ import { scrollToTarget } from "../lib/smooth.js";
 import { site, whatsappUrl } from "../config/site.js";
 import { NAV } from "./Navbar.jsx";
 import { Icon } from "./ui.jsx";
+import { NATALE } from "../lib/natale.js";
 import "./Footer.css";
 
 export default function Footer() {
@@ -22,6 +23,12 @@ export default function Footer() {
           <div className="footer__brand">
             <span className="footer__logo"><b>{site.monogram}</b> / {site.role}</span>
             <p>{site.positioning}. {site.tagline} da {site.city}.</p>
+            {NATALE && (
+              <p className="xm-auguri">
+                <svg viewBox="0 0 16 18" aria-hidden="true"><path d="M8 0l4 5H9.6l3.4 4.5h-2.6L14 14H9v4H7v-4H2l3.6-4.5H3L6.4 5H4z" fill="currentColor" /></svg>
+                Buone feste da {site.city}
+              </p>
+            )}
           </div>
 
           <nav className="footer__col" aria-label="Navigazione nel footer">
