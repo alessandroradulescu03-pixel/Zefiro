@@ -33,8 +33,12 @@ I punti da completare sono segnati con `TODO` (Instagram e LinkedIn di ZEFIRO).
 
 ## 3. Pagine
 
-- `#/` Home: hero, servizi, metodo, progetti, studio, contatti
+Ogni voce del menu apre una pagina vera, con la transizione tra pagine:
+
+- `#/` Home: hero, anteprima dei servizi, progetti selezionati, invito al contatto
+- `#/servizi` i quattro servizi e il metodo di lavoro
 - `#/progetti` tutti i case study, `#/progetti/<id>` il singolo progetto
+- `#/studio` lo studio, il fondatore e i principi
 - `#/contatti` pagina contatti con il modulo
 
 I vecchi indirizzi del portfolio (`#/work`, `#/work/<id>`, `#/contact`) rimandano automaticamente a quelli nuovi.

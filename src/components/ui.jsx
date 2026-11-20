@@ -98,7 +98,7 @@ export function Label({ children, className = "", ...rest }) {
 export function SectionHead({ index, label, title, as = "h2", id, aside, className = "" }) {
   const [ref, inView] = useReveal();
   return (
-    <header ref={ref} className={`shead ${inView ? "is-in" : ""} ${className}`}>
+    <header ref={ref} className={`shead ${inView ? "is-in" : ""} ${aside ? "" : "shead--solo"} ${className}`}>
       <div className="shead__meta">
         <span className="shead__idx mono">{index}</span>
         <span className="label">{label}</span>

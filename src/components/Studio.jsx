@@ -12,13 +12,14 @@ const PRINCIPLES = [
 
 const STACK = ["HTML", "CSS", "JavaScript", "React", "Vite", "PHP", "WordPress", "MySQL", "GitHub"];
 
-export default function Studio() {
+export default function Studio({ page = false }) {
   return (
-    <section id="studio" className="section tone-light studio" aria-labelledby="studio-title">
+    <section id="studio" className={`section tone-light studio ${page ? "section--page" : ""}`} aria-labelledby="studio-title">
       <div className="container">
         <SectionHead
-          index="(04)"
-          label="Studio"
+          index={page ? "Studio" : "(04)"}
+          label={page ? "Chi siamo" : "Studio"}
+          as={page ? "h1" : "h2"}
           id="studio-title"
           title={["Design with purpose.", "Development with vision."]}
         />

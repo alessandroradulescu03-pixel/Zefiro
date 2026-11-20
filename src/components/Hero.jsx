@@ -190,7 +190,7 @@ export default function Hero() {
       <div className="container hero__base">
         <span className="label">Web Design · Web Development · E-commerce · Digital Identity</span>
         <span className="label hero__payoff">{site.payoff}</span>
-        <button type="button" className="hero__scroll label" onClick={() => navTo({ to: "/", section: "servizi" })}>
+        <button type="button" className="hero__scroll label" onClick={() => navTo({ to: "/", section: "home-servizi" })}>
           Scorri {Icon.down}
         </button>
       </div>

@@ -81,7 +81,7 @@ export default function Projects({ page = false }) {
     <section id="progetti" className={`section tone-ice projects ${page ? "projects--page" : ""}`} aria-labelledby="projects-title">
       <div className="container">
         <SectionHead
-          index={page ? "Case studies" : "(03)"}
+          index={page ? "Case studies" : "(02)"}
           label="Progetti"
           as={page ? "h1" : "h2"}
           id="projects-title"

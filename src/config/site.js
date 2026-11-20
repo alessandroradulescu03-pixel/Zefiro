@@ -38,8 +38,8 @@ export const site = {
 
 export const NAV = [
   { id: "home", label: "Home", to: "/" },
-  { id: "servizi", label: "Servizi", to: "/", section: "servizi" },
+  { id: "servizi", label: "Servizi", to: "/servizi" },
   { id: "progetti", label: "Progetti", to: "/progetti" },
-  { id: "studio", label: "Studio", to: "/", section: "studio" },
+  { id: "studio", label: "Studio", to: "/studio" },
   { id: "contatti", label: "Contatti", to: "/contatti" },
 ];

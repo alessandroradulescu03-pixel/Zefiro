@@ -30,8 +30,8 @@ export default function Method() {
     <section id="metodo" className="section tone-dark method" aria-labelledby="method-title">
       <div className="container">
         <SectionHead
-          index="(02)"
-          label="Metodo"
+          index="Metodo"
+          label="Come lavoriamo"
           id="method-title"
           title={["Un metodo chiaro,", "dall'idea al lancio."]}
           aside={<p>Quattro fasi, sempre le stesse, perché ogni progetto abbia tempi chiari e nessuna sorpresa. Sai sempre a che punto siamo e cosa succede dopo.</p>}

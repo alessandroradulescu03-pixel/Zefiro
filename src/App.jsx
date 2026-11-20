@@ -10,6 +10,8 @@ import Home from "./pages/Home.jsx";
 import ProjectDetail from "./components/ProjectDetail.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProjectsPage from "./pages/ProjectsPage.jsx";
+import ServicesPage from "./pages/ServicesPage.jsx";
+import StudioPage from "./pages/StudioPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 
 /* vecchi indirizzi del portfolio (#/work/..., #/contact): restano validi */
@@ -96,6 +98,8 @@ function Shell() {
       <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/servizi" element={<ServicesPage />} />
+          <Route path="/studio" element={<StudioPage />} />
           <Route path="/progetti" element={<ProjectsPage />} />
           <Route path="/progetti/:id" element={<ProjectDetail />} />
           <Route path="/contatti" element={<ContactPage />} />

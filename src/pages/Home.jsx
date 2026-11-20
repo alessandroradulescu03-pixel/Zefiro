@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { site } from "../config/site.js";
 import Hero from "../components/Hero.jsx";
-import Services from "../components/Services.jsx";
-import Method from "../components/Method.jsx";
+import ServicesTeaser from "../components/ServicesTeaser.jsx";
 import Projects from "../components/Projects.jsx";
-import Studio from "../components/Studio.jsx";
-import Contact from "../components/Contact.jsx";
+import CtaBand from "../components/CtaBand.jsx";
 
 export default function Home() {
   useEffect(() => {
@@ -14,11 +12,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Services />
-      <Method />
+      <ServicesTeaser />
       <Projects />
-      <Studio />
-      <Contact />
+      <CtaBand secondary={{ to: "/studio", label: "Scopri lo studio" }} />
     </>
   );
 }

@@ -94,13 +94,16 @@ const SERVICES = [
   },
 ];
 
-export default function Services() {
+export { SERVICES };
+
+export default function Services({ page = false }) {
   return (
-    <section id="servizi" className="section tone-light services" aria-labelledby="services-title">
+    <section id="servizi" className={`section tone-light services ${page ? "section--page" : ""}`} aria-labelledby="services-title">
       <div className="container">
         <SectionHead
-          index="(01)"
-          label="Servizi"
+          index={page ? "Servizi" : "(01)"}
+          label={page ? "Cosa facciamo" : "Servizi"}
+          as={page ? "h1" : "h2"}
           id="services-title"
           title={["Quattro competenze,", "un unico progetto."]}
           aside={<p>Dalla strategia al codice, ogni parte del progetto nasce nello stesso studio. Per questo design, sviluppo e identità parlano la stessa lingua.</p>}
