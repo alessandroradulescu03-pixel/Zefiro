@@ -5,7 +5,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useApp } from "../lib/app-context.js";
-import { Symbol } from "./Logo.jsx";
 import { site } from "../config/site.js";
 import { Button } from "./ui.jsx";
 
@@ -132,7 +131,7 @@ export default function ContactForm() {
       const out = await send(fields, `ZEFIRO · nuova richiesta da ${fields.Nome}`, raw);
       setBoxH(formRef.current ? formRef.current.offsetHeight : 0);
       setSent({
-        first: fields.Nome.split(" ")[0],
+        first: fields.Nome.split(" ")[0].replace(/^./, c => c.toUpperCase()),
         email: fields.Email,
         type: data.type,
         company: data.company.trim(),
@@ -163,8 +162,17 @@ export default function ContactForm() {
       <div className="cf-done" ref={doneRef} tabIndex={-1} role="status" aria-live="polite" aria-labelledby="cf-done-title" style={{ minHeight: boxH || undefined }}>
         <div className="cf-done__in">
           <div className="cf-done__mark" aria-hidden="true">
-            <svg viewBox="0 0 52 52" className="cf-done__check"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L37.5 19" /></svg>
-            <Symbol className="cf-done__sym" tone="light" />
+            <svg viewBox="0 0 64 64" className="cf-done__check">
+              <defs>
+                <linearGradient id="cfdg" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stopColor="#123DAD" />
+                  <stop offset="0.6" stopColor="#1765E8" />
+                  <stop offset="1" stopColor="#39B8F4" />
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="32" r="30" fill="url(#cfdg)" />
+              <path d="M20 33.5l8 8L44.5 24" />
+            </svg>
           </div>
           <p className="label cf-done__k">Richiesta inviata</p>
           <h3 className="display cf-done__t" id="cf-done-title">Grazie {sent.first}, abbiamo ricevuto la tua richiesta.</h3>

@@ -80,12 +80,13 @@
 .cf-done { display: flex; align-items: center; color: var(--navy); outline: none; animation: cfDoneIn 0.7s var(--ease-out) both; }
 .cf-done__in { width: 100%; }
 @keyframes cfDoneIn { from { opacity: 0; transform: translateY(16px); } }
-.cf-done__mark { position: relative; width: 64px; height: 64px; margin-bottom: 28px; }
-.cf-done__check { width: 64px; height: 64px; }
-.cf-done__check circle { fill: var(--blue); }
-.cf-done__check path { fill: none; stroke: #fff; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 36; stroke-dashoffset: 36; animation: cfCheck 0.6s var(--ease-out) 0.35s forwards; }
+.cf-done__mark { position: relative; width: 64px; height: 64px; margin-bottom: 30px; }
+.cf-done__mark::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; background: rgba(23, 101, 232, 0.1); animation: cfHalo 0.9s var(--ease-out) 0.15s both; }
+@keyframes cfHalo { from { transform: scale(0.6); opacity: 0; } }
+.cf-done__check { position: relative; width: 64px; height: 64px; animation: cfPop 0.6s var(--ease-out) both; }
+@keyframes cfPop { from { transform: scale(0.7); opacity: 0; } }
+.cf-done__check path { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: cfCheck 0.55s var(--ease-out) 0.35s forwards; }
 @keyframes cfCheck { to { stroke-dashoffset: 0; } }
-.cf-done__sym { position: absolute; right: -30px; top: -10px; width: 34px; height: auto; opacity: 0.9; }
 .cf-done__k { color: var(--blue); }
 .cf-done__t { margin-top: 12px; font-size: clamp(26px, 2.6vw, 36px); letter-spacing: -0.03em; line-height: 1.12; max-width: 18ch; }
 .cf-done__p { margin-top: 16px; color: var(--slate); max-width: 46ch; }
@@ -105,5 +106,5 @@
 .cf-done__actions .btn--primary { --b-hover: var(--navy); --b-hfg: var(--white); }
 .cf-done__again { background: none; border: 0; padding: 8px 0; font-weight: 600; font-size: 15px; color: var(--navy); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(7, 21, 47, 0.3); transition: text-decoration-color 0.3s; }
 .cf-done__again:hover { text-decoration-color: var(--blue); }
-@media (max-width: 560px) { .cf-done__actions .btn { width: 100%; } .cf-done__sym { right: -26px; } }
-@media (prefers-reduced-motion: reduce) { .cf-done__check path { stroke-dashoffset: 0; } }
+@media (max-width: 560px) { .cf-done__actions .btn { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .cf-done__check path { stroke-dashoffset: 0; } .cf-done__mark::before, .cf-done__check { animation: none; } }
