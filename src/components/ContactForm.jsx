@@ -2,8 +2,11 @@
    Invia tramite Web3Forms (se site.web3formsKey è compilata) oppure FormSubmit (endpoint AJAX):
    in entrambi i casi legge la risposta del servizio e mostra l'esito vero,
    senza mai simulare un invio riuscito. */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useApp } from "../lib/app-context.js";
+import { scrollToTarget } from "../lib/smooth.js";
+import { Symbol } from "./Logo.jsx";
 import { site } from "../config/site.js";
 import { Button } from "./ui.jsx";
 
@@ -61,6 +64,16 @@ export default function ContactForm() {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState({ state: "idle", msg: "" });
+  const [sent, setSent] = useState(null); // riepilogo della richiesta inviata
+  const doneRef = useRef(null);
+  const { go } = useApp();
+
+  // dopo l'invio porta il pannello di conferma in vista e gli dà il focus
+  useEffect(() => {
+    if (!sent || !doneRef.current) return;
+    doneRef.current.focus({ preventScroll: true });
+    scrollToTarget(doneRef.current, { offset: -120 });
+  }, [sent]);
 
   const check = (name, value) => {
     const res = RULES[name] ? RULES[name](value) : true;
@@ -118,14 +131,16 @@ export default function ContactForm() {
         website: data.website,
       };
       const out = await send(fields, `ZEFIRO · nuova richiesta da ${fields.Nome}`, raw);
+      setSent({
+        first: fields.Nome.split(" ")[0],
+        email: fields.Email,
+        type: data.type,
+        company: data.company.trim(),
+        confirmation: !!out.confirmation,
+      });
       setData(EMPTY);
       setTouched({});
-      setStatus({
-        state: "success",
-        msg: out.confirmation
-          ? "Richiesta inviata. Ti abbiamo mandato un'email di conferma: controlla anche nello spam."
-          : "Richiesta inviata. Ti risponderemo all'indirizzo email che hai indicato.",
-      });
+      setStatus({ state: "idle", msg: "" });
     } catch (err) {
       console.error("[ZEFIRO] invio modulo non riuscito:", err);
       setStatus({ state: "error", msg: "fail" });
@@ -142,6 +157,47 @@ export default function ContactForm() {
     </div>
   );
   const aria = name => ({ "aria-invalid": errors[name] ? "true" : "false", "aria-describedby": `cf-${name}-err` });
+
+  if (sent) {
+    const steps = [
+      ["Lettura", "Analizziamo la tua richiesta e la tua attività."],
+      ["Risposta", `Ti scriviamo a ${sent.email} con domande e prossimi passi.`],
+      ["Proposta", "Se il progetto è adatto, prepariamo una proposta su misura."],
+    ];
+    return (
+      <div className="cf-done" ref={doneRef} tabIndex={-1} role="status" aria-live="polite" aria-labelledby="cf-done-title">
+        <div className="cf-done__mark" aria-hidden="true">
+          <svg viewBox="0 0 52 52" className="cf-done__check"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L37.5 19" /></svg>
+          <Symbol className="cf-done__sym" />
+        </div>
+        <p className="label cf-done__k">Richiesta inviata</p>
+        <h3 className="display cf-done__t" id="cf-done-title">Grazie {sent.first}, abbiamo ricevuto la tua richiesta.</h3>
+        <p className="cf-done__p">
+          {sent.confirmation
+            ? <>Ti abbiamo inviato un'email di conferma a <strong>{sent.email}</strong>. Se non la trovi, controlla nella cartella spam.</>
+            : <>La leggeremo con attenzione e ti risponderemo a <strong>{sent.email}</strong>.</>}
+        </p>
+
+        <dl className="cf-done__sum">
+          <div><dt className="label">Progetto</dt><dd>{sent.type}</dd></div>
+          {sent.company && <div><dt className="label">Attività</dt><dd>{sent.company}</dd></div>}
+          <div><dt className="label">Risposta a</dt><dd>{sent.email}</dd></div>
+        </dl>
+
+        <p className="label cf-done__next">Cosa succede ora</p>
+        <ol className="cf-done__steps">
+          {steps.map(([t, d], i) => (
+            <li key={t}><span className="mono">0{i + 1}</span><div><strong>{t}</strong><p>{d}</p></div></li>
+          ))}
+        </ol>
+
+        <div className="cf-done__actions">
+          <Button href="#/progetti" onClick={e => { e.preventDefault(); go("/progetti", { title: "Progetti" }); }}>Guarda i progetti</Button>
+          <button type="button" className="cf-done__again" onClick={() => setSent(null)}>Invia un'altra richiesta</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form className="cf" id="contact-form" noValidate onSubmit={submit} aria-label="Modulo di richiesta progetto">

@@ -21,7 +21,7 @@
 .contact__facts a:hover { background-size: 100% 1px; }
 .contact__social { display: flex; flex-wrap: wrap; gap: 18px; }
 
-.contact__form { color-scheme: light; background: var(--white); color: var(--navy); border-radius: var(--radius); padding: clamp(24px, 3.4vw, 48px); }
+.contact__form { --muted: var(--slate); --fg: var(--navy); color-scheme: light; background: var(--white); color: var(--navy); border-radius: var(--radius); padding: clamp(24px, 3.4vw, 48px); }
 
 /* modulo */
 .cf { display: grid; gap: 4px; --fg: var(--navy); --muted: var(--slate); }
@@ -74,3 +74,34 @@
   .cf__row { grid-template-columns: 1fr; }
   .cf__foot .btn { width: 100%; }
 }
+
+/* conferma di invio */
+.cf-done { color: var(--navy); outline: none; animation: cfDoneIn 0.7s var(--ease-out) both; }
+@keyframes cfDoneIn { from { opacity: 0; transform: translateY(16px); } }
+.cf-done__mark { position: relative; width: 64px; height: 64px; margin-bottom: 28px; }
+.cf-done__check { width: 64px; height: 64px; }
+.cf-done__check circle { fill: var(--blue); }
+.cf-done__check path { fill: none; stroke: #fff; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 36; stroke-dashoffset: 36; animation: cfCheck 0.6s var(--ease-out) 0.35s forwards; }
+@keyframes cfCheck { to { stroke-dashoffset: 0; } }
+.cf-done__sym { position: absolute; right: -30px; top: -10px; width: 34px; height: auto; opacity: 0.9; }
+.cf-done__k { color: var(--blue); }
+.cf-done__t { margin-top: 12px; font-size: clamp(26px, 2.6vw, 36px); letter-spacing: -0.03em; line-height: 1.12; max-width: 18ch; }
+.cf-done__p { margin-top: 16px; color: var(--slate); max-width: 46ch; }
+.cf-done__p strong { color: var(--navy); font-weight: 600; overflow-wrap: anywhere; }
+.cf-done__sum { margin: 28px 0 0; border-radius: 10px; background: var(--ice); padding: 6px 20px; }
+.cf-done__sum div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 13px 0; }
+.cf-done__sum div + div { border-top: 1px solid rgba(7, 21, 47, 0.1); }
+.cf-done__sum dt { padding-top: 3px; }
+.cf-done__sum dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.cf-done__next { display: block; margin-top: 32px; color: var(--navy); }
+.cf-done__steps { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 0; }
+.cf-done__steps li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; padding: 14px 0; border-top: 1px solid rgba(7, 21, 47, 0.1); }
+.cf-done__steps .mono { font-size: 12px; color: var(--blue); padding-top: 3px; }
+.cf-done__steps strong { font-weight: 700; }
+.cf-done__steps p { color: var(--slate); font-size: 15px; margin-top: 2px; overflow-wrap: anywhere; }
+.cf-done__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 32px; }
+.cf-done__actions .btn--primary { --b-hover: var(--navy); --b-hfg: var(--white); }
+.cf-done__again { background: none; border: 0; padding: 8px 0; font-weight: 600; font-size: 15px; color: var(--navy); cursor: pointer; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(7, 21, 47, 0.3); transition: text-decoration-color 0.3s; }
+.cf-done__again:hover { text-decoration-color: var(--blue); }
+@media (max-width: 560px) { .cf-done__actions .btn { width: 100%; } .cf-done__sym { right: -26px; } }
+@media (prefers-reduced-motion: reduce) { .cf-done__check path { stroke-dashoffset: 0; } }
