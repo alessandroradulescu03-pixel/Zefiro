@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useApp } from "../lib/app-context.js";
 import { useFinePointer, useReducedMotion } from "../hooks/useMotion.js";
 import { site } from "../config/site.js";
-import { STAR_PATH } from "./Logo.jsx";
+import { STAR_PATH, SymbolMono } from "./Logo.jsx";
 import { Button, Icon, SplitLines } from "./ui.jsx";
 import "./Hero.css";
 
@@ -91,7 +91,7 @@ function Composition() {
           </g>
           <g className="comp__mod" style={{ "--m": 2 }}>
             <rect x="392" y="136" width="176" height="176" rx="6" fill="url(#panel)" opacity="0.9" />
-            <path d={STAR_PATH} transform="translate(480 224) scale(1.5) translate(-181 -39)" fill="#fff" opacity="0.92" />
+            <SymbolMono transform="translate(408 173) scale(0.364) translate(-21.5 -22)" opacity="0.95" />
           </g>
           {[88, 248, 408].map((x, i) => (
             <g key={x} className="comp__mod" style={{ "--m": 3 + i }}>
@@ -115,7 +115,7 @@ function Composition() {
             <rect key={x + "-" + y} x={x - 4} y={y - 4} width="8" height="8" className="sel-handle" />
           ))}
           <g transform="translate(386 330)">
-            <rect width="122" height="22" rx="4" className="sel-chip" />
+            <rect width="136" height="22" rx="4" className="sel-chip" />
             <text x="10" y="15" className="sel-txt">DIGITAL IDENTITY</text>
           </g>
           <path d="M88 126v-6M376 126v-6M88 123h288" className="dim" />

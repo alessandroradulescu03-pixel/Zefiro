@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useApp } from "../lib/app-context.js";
 import { site } from "../config/site.js";
 import { Button } from "./ui.jsx";
+import { SymbolMono } from "./Logo.jsx";
 
 const TYPES = ["Sito vetrina", "E-commerce", "Web app", "Restyling di un sito esistente", "Digital identity", "Altro"];
 const BUDGETS = ["Preferisco parlarne", "Fino a 1.500 €", "1.500 – 3.000 €", "3.000 – 6.000 €", "Oltre 6.000 €"];
@@ -135,7 +136,9 @@ export default function ContactForm() {
         email: fields.Email,
         type: data.type,
         company: data.company.trim(),
+        budget: data.budget,
         confirmation: !!out.confirmation,
+        at: new Date(),
       });
       setData(EMPTY);
       setTouched({});
@@ -158,11 +161,35 @@ export default function ContactForm() {
   const aria = name => ({ "aria-invalid": errors[name] ? "true" : "false", "aria-describedby": `cf-${name}-err` });
 
   if (sent) {
+    const when = new Intl.DateTimeFormat("it-IT", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(sent.at);
+    const rows = [
+      ["Progetto", sent.type],
+      sent.company && ["Attività", sent.company],
+      sent.budget && ["Budget", sent.budget],
+      ["Risposta a", sent.email],
+    ].filter(Boolean);
+    const steps = [
+      ["Ricevuta", "Adesso"],
+      ["In lettura", "Analizziamo la richiesta"],
+      ["Risposta", "Ti scriviamo via email"],
+    ];
     return (
-      <div className="cf-done" ref={doneRef} tabIndex={-1} role="status" aria-live="polite" aria-labelledby="cf-done-title" style={{ minHeight: boxH || undefined }}>
-        <div className="cf-done__in">
-          <div className="cf-done__mark" aria-hidden="true">
-            <svg viewBox="0 0 64 64" className="cf-done__check">
+      <div className="cfd" ref={doneRef} tabIndex={-1} role="status" aria-live="polite" aria-labelledby="cfd-title" style={{ minHeight: boxH || undefined }}>
+        <div className="cfd__band">
+          <svg className="cfd__wind" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="cfdw" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stopColor="#1765E8" stopOpacity="0" />
+                <stop offset="0.5" stopColor="#1765E8" />
+                <stop offset="1" stopColor="#39B8F4" />
+              </linearGradient>
+            </defs>
+            <path pathLength="1" d="M120 230 C260 150 360 130 450 112 C530 96 570 60 610 -10" />
+            <path pathLength="1" d="M60 240 C220 140 330 104 430 86 C510 72 560 40 600 -20" />
+            <path pathLength="1" d="M220 240 C330 190 420 170 500 156 C560 146 590 110 620 50" />
+          </svg>
+          <div className="cfd__badge" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
               <defs>
                 <linearGradient id="cfdg" x1="0" y1="1" x2="1" y2="0">
                   <stop offset="0" stopColor="#123DAD" />
@@ -170,25 +197,58 @@ export default function ContactForm() {
                   <stop offset="1" stopColor="#39B8F4" />
                 </linearGradient>
               </defs>
-              <circle cx="32" cy="32" r="30" fill="url(#cfdg)" />
-              <path d="M20 33.5l8 8L44.5 24" />
+              <circle className="cfd__ring" cx="32" cy="32" r="30" pathLength="1" />
+              <circle className="cfd__disc" cx="32" cy="32" r="24" fill="url(#cfdg)" />
+              <path className="cfd__tick" pathLength="1" d="M22.5 32.5l6.5 6.5 12.5-13" />
             </svg>
           </div>
-          <p className="label cf-done__k">Richiesta inviata</p>
-          <h3 className="display cf-done__t" id="cf-done-title">Grazie {sent.first}, abbiamo ricevuto la tua richiesta.</h3>
-          <p className="cf-done__p">
-            {sent.confirmation
-              ? <>Ti abbiamo inviato un'email di conferma a <strong>{sent.email}</strong>. Se non la trovi, controlla nello spam.</>
-              : <>La leggeremo con attenzione e ti risponderemo a <strong>{sent.email}</strong>.</>}
-          </p>
-          <dl className="cf-done__sum">
-            <div><dt className="label">Progetto</dt><dd>{sent.type}</dd></div>
-            {sent.company && <div><dt className="label">Attività</dt><dd>{sent.company}</dd></div>}
-          </dl>
-          <div className="cf-done__actions">
-            <Button href="#/progetti" onClick={e => { e.preventDefault(); go("/progetti", { title: "Progetti" }); }}>Guarda i progetti</Button>
-            <button type="button" className="cf-done__again" onClick={() => setSent(null)}>Invia un'altra richiesta</button>
+          <div className="cfd__head">
+            <span className="cfd__status"><i aria-hidden="true" />Richiesta inviata</span>
+            <time className="cfd__time" dateTime={sent.at.toISOString()}>{when}</time>
           </div>
+        </div>
+
+        <div className="cfd__body">
+          <h3 className="display cfd__title" id="cfd-title">
+            Grazie, {sent.first}.
+            <span>La tua richiesta è arrivata allo studio.</span>
+          </h3>
+          <p className="cfd__text">
+            {sent.confirmation
+              ? <>Ti abbiamo inviato un riepilogo a <strong>{sent.email}</strong>. Se non lo trovi, dai un'occhiata nello spam.</>
+              : <>La leggeremo con attenzione e ti risponderemo personalmente a <strong>{sent.email}</strong>.</>}
+          </p>
+
+          <dl className="cfd__sum">
+            {rows.map(([k, v], i) => (
+              <div key={k} style={{ "--i": i }}><dt>{k}</dt><dd>{v}</dd></div>
+            ))}
+          </dl>
+
+          <div className="cfd__track">
+            <p className="cfd__track-k">A che punto è</p>
+            <ol>
+              {steps.map(([t, d], i) => (
+                <li key={t} className={i === 0 ? "is-done" : ""} style={{ "--i": i }}>
+                  <span className="cfd__dot" aria-hidden="true">
+                    {i === 0 ? <svg viewBox="0 0 16 16"><path d="M4 8.3l2.6 2.6L12 5.5" /></svg> : <b>{`0${i + 1}`}</b>}
+                  </span>
+                  <strong>{t}</strong>
+                  <small>{d}</small>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="cfd__actions">
+            <Button href="#/progetti" onClick={e => { e.preventDefault(); go("/progetti", { title: "Progetti" }); }}>Guarda i progetti</Button>
+            <button type="button" className="cfd__again" onClick={() => setSent(null)}>Invia un'altra richiesta</button>
+          </div>
+
+          <p className="cfd__sign">
+            <svg viewBox="21 22 396 277" aria-hidden="true"><SymbolMono fill="currentColor" baseOpacity={0.6} /></svg>
+            ZEFIRO Digital Studio · {site.city}
+          </p>
         </div>
       </div>
     );
