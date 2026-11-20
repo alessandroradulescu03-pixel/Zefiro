@@ -23,7 +23,7 @@ const env = (k: string, d = "") => Deno.env.get(k) ?? d;
 const RESEND_URL = env("RESEND_API_URL", "https://api.resend.com/emails");
 const OWNER = env("OWNER_EMAIL", "alessandro.radulescu03@gmail.com");
 const FROM = env("FROM_EMAIL", "ZEFIRO <onboarding@resend.dev>");
-const SITE = env("SITE_URL", "https://alessandroradulescu03-pixel.github.io/Portfolio/").replace(/\/?$/, "/");
+const SITE = env("SITE_URL", "https://alessandroradulescu03-pixel.github.io/Zefiro/").replace(/\/?$/, "/");
 const ORIGINS = env("ALLOWED_ORIGINS", "https://alessandroradulescu03-pixel.github.io,http://localhost:5173,http://localhost:4173")
   .split(",").map(s => s.trim()).filter(Boolean);
 const CONFIRM = env("SEND_CONFIRMATION", FROM.includes("resend.dev") ? "false" : "true") === "true";
