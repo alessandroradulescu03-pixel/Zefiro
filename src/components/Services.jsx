@@ -98,16 +98,17 @@ export { SERVICES };
 
 export default function Services({ page = false }) {
   return (
-    <section id="servizi" className={`section tone-light services ${page ? "section--page" : ""}`} aria-labelledby="services-title">
+    <section id="servizi" className="section tone-light services" aria-label="Servizi">
       <div className="container">
-        <SectionHead
-          index={page ? "Servizi" : "(01)"}
-          label={page ? "Cosa facciamo" : "Servizi"}
-          as={page ? "h1" : "h2"}
-          id="services-title"
-          title={["Quattro competenze,", "un unico progetto."]}
-          aside={<p>Dalla strategia al codice, ogni parte del progetto nasce nello stesso studio. Per questo design, sviluppo e identità parlano la stessa lingua.</p>}
-        />
+        {!page && (
+          <SectionHead
+            index="(01)"
+            label="Servizi"
+            id="services-title"
+            title={["Quattro competenze,", "un unico progetto."]}
+            aside={<p>Dalla strategia al codice, ogni parte del progetto nasce nello stesso studio. Per questo design, sviluppo e identità parlano la stessa lingua.</p>}
+          />
+        )}
         <div className="services__grid">
           {SERVICES.map(({ n, title, short, text, tags, Art }, i) => (
             <Reveal as="article" key={n} className="sv" delay={(i % 2) * 90} tabIndex={0} aria-labelledby={`sv-${n}`}>

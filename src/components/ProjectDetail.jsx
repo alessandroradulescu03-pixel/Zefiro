@@ -5,7 +5,7 @@ import { useApp } from "../lib/app-context.js";
 import { useParallax } from "../hooks/useMotion.js";
 import { allProjects, findProject, asset, TYPE_LABEL, STATUS_LABEL } from "../data/projects.js";
 import { site } from "../config/site.js";
-import { Badge } from "./Projects.jsx";
+import { Badge, Img } from "./Projects.jsx";
 import { Button, Icon, Reveal, SplitLines } from "./ui.jsx";
 import NotFound from "../pages/NotFound.jsx";
 import DemoViewer from "./DemoViewer.jsx";
@@ -99,11 +99,11 @@ export default function ProjectDetail() {
             <div className="cs-hero__par" ref={par}>
               <div className="cs-frame">
                 <div className="cs-frame__bar" aria-hidden="true"><i /><i /><i /></div>
-                <img src={asset(desk[0].src)} alt={desk[0].alt} width="1440" height="900" decoding="async" />
+                <Img src={asset(desk[0].src)} alt={desk[0].alt} width="1440" height="900" decoding="async" />
               </div>
               {mob && (
                 <div className="cs-phone">
-                  <img src={asset(mob.src)} alt={mob.alt} width="585" height="1266" decoding="async" loading="lazy" />
+                  <Img src={asset(mob.src)} alt={mob.alt} width="585" height="1266" decoding="async" loading="lazy" />
                 </div>
               )}
             </div>
@@ -159,7 +159,7 @@ export default function ProjectDetail() {
             {desk.slice(1).map((g, k) => (
               <Reveal as="figure" key={g.src} delay={k * 80} className="cs-frame cs-frame--wide">
                 <div className="cs-frame__bar" aria-hidden="true"><i /><i /><i /></div>
-                <img src={asset(g.src)} alt={g.alt} loading="lazy" decoding="async" width="1440" height="900" />
+                <Img src={asset(g.src)} alt={g.alt} loading="lazy" decoding="async" width="1440" height="900" />
               </Reveal>
             ))}
           </div>

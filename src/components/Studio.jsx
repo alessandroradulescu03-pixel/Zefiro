@@ -14,15 +14,11 @@ const STACK = ["HTML", "CSS", "JavaScript", "React", "Vite", "PHP", "WordPress",
 
 export default function Studio({ page = false }) {
   return (
-    <section id="studio" className={`section tone-light studio ${page ? "section--page" : ""}`} aria-labelledby="studio-title">
+    <section id="studio" className="section tone-light studio" aria-label="Lo studio">
       <div className="container">
-        <SectionHead
-          index={page ? "Studio" : "(04)"}
-          label={page ? "Chi siamo" : "Studio"}
-          as={page ? "h1" : "h2"}
-          id="studio-title"
-          title={["Design with purpose.", "Development with vision."]}
-        />
+        {!page && (
+          <SectionHead index="(03)" label="Studio" id="studio-title" title={["Design with purpose.", "Development with vision."]} />
+        )}
 
         <div className="studio__grid">
           <Reveal className="studio__intro">

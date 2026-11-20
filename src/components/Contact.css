@@ -11,6 +11,7 @@
 .contact__idx { color: var(--mist); margin-bottom: 28px; }
 .contact__idx .mono { color: var(--sky); }
 .contact__title { max-width: 14ch; }
+.contact--page .contact__title { font-size: clamp(36px, 3.5vw, 52px); max-width: none; }
 .contact__lead { margin-top: 28px; color: var(--mist); max-width: 42ch; opacity: 0; transition: opacity 1s var(--ease-out) 0.4s; }
 .contact__head.is-in .contact__lead { opacity: 1; }
 .contact__facts { margin: clamp(36px, 4vw, 56px) 0 0; }
@@ -76,7 +77,8 @@
 }
 
 /* conferma di invio */
-.cf-done { color: var(--navy); outline: none; animation: cfDoneIn 0.7s var(--ease-out) both; }
+.cf-done { display: flex; align-items: center; color: var(--navy); outline: none; animation: cfDoneIn 0.7s var(--ease-out) both; }
+.cf-done__in { width: 100%; }
 @keyframes cfDoneIn { from { opacity: 0; transform: translateY(16px); } }
 .cf-done__mark { position: relative; width: 64px; height: 64px; margin-bottom: 28px; }
 .cf-done__check { width: 64px; height: 64px; }

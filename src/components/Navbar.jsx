@@ -23,9 +23,6 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", key);
   }, [open]);
 
-  // pagine che iniziano su sfondo chiaro: barra sempre blu notte, così il menu resta leggibile
-  const lightTop = ["/servizi", "/studio", "/progetti"].includes(pathname);
-
   const isActive = item =>
     item.section ? false : item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
 
@@ -38,7 +35,7 @@ export default function Navbar() {
   const contact = NAV.find(n => n.id === "contatti");
 
   return (
-    <header className={`nav ${solid || open || lightTop ? "is-solid" : ""} ${open ? "is-open" : ""}`}>
+    <header className={`nav ${solid || open ? "is-solid" : ""} ${open ? "is-open" : ""}`}>
       <div className="nav__bar container">
         <a className="nav__logo" href="#/" onClick={e => click(e, NAV[0])} aria-label="ZEFIRO — torna alla home">
           <Logo tone="dark" />

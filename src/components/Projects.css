@@ -1,4 +1,3 @@
-.projects--page { padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + clamp(48px, 8vw, 120px)); }
 
 /* badge tipologia */
 .badge {
@@ -24,8 +23,12 @@
 .tone-dark .badge--client .badge__st { color: var(--slate); }
 
 .projects__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: clamp(28px, 3vw, 40px); }
-.projects__legend { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
-.projects__legend .label { text-transform: none; letter-spacing: 0.02em; font-size: 12.5px; margin-right: 14px; }
+.projects__legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 14px; color: var(--muted); }
+.projects__legend li { display: inline-flex; align-items: center; gap: 8px; }
+.projects__legend strong { color: var(--navy); font-weight: 600; }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.dot--client { background: var(--navy); box-shadow: inset 0 0 0 2.5px var(--sky); }
+.dot--concept { box-shadow: inset 0 0 0 1.5px var(--blue); }
 .projects__filters { display: flex; flex-wrap: wrap; gap: 6px; }
 .projects__filters button {
   border: 1px solid var(--line-strong);
@@ -61,7 +64,7 @@
   position: absolute;
   left: 7%;
   right: 7%;
-  top: 8%;
+  top: 14%;
   border-radius: 8px 8px 0 0;
   background: #fff;
   overflow: hidden;
@@ -87,7 +90,13 @@
 }
 .pc__phone img { width: 100%; border-radius: 10px; }
 
-.pc__info { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 16px; margin-top: 22px; }
+.pc__badge { position: absolute; left: 16px; top: 14px; z-index: 2; }
+.pc__badge .badge { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.pc__badge .badge--client { background: rgba(255, 255, 255, 0.94); color: var(--navy); }
+.pc__badge .badge--client .badge__st { color: var(--slate); }
+.pc__badge .badge--concept { background: rgba(7, 21, 47, 0.62); color: var(--white); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22); }
+.pc__badge .badge--concept i { box-shadow: inset 0 0 0 1.5px var(--sky); }
+.pc__info { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; margin-top: 22px; }
 .pc__n { font-size: 12px; color: var(--blue); letter-spacing: 0.06em; align-self: start; padding-top: 6px; }
 .pc__title { font-size: clamp(22px, 2.1vw, 30px); letter-spacing: -0.03em; line-height: 1.1; }
 .pc__cat { font-size: 14px; color: var(--muted); margin-top: 4px; }
@@ -107,8 +116,7 @@
 @media (max-width: 860px) {
   .projects__grid { grid-template-columns: 1fr; }
   .projects__grid > :nth-child(even) { margin-top: 0; }
-  .pc__info { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .pc__info .badge { grid-column: 2 / 4; grid-row: 2; justify-self: start; }
-  .pc__go { grid-column: 3; grid-row: 1; }
+  .pc__badge { left: 12px; top: 10px; }
+  .pc__badge .badge { font-size: 10px; padding: 6px 10px; }
   .pc__desc { padding-left: 0; }
 }

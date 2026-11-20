@@ -1,6 +1,6 @@
 /* Progetti: card con screenshot reali; in home e nella pagina /progetti.
    Distingue sempre i progetti per clienti dai concept dimostrativi. */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "../lib/app-context.js";
 import { allProjects, asset, TYPE_LABEL, STATUS_LABEL } from "../data/projects.js";
 import { Button, Icon, Reveal, SectionHead } from "./ui.jsx";
@@ -14,6 +14,17 @@ export function Badge({ project }) {
       {project.type === "client" && project.status && <span className="badge__st"> · {STATUS_LABEL[project.status]}</span>}
     </span>
   );
+}
+
+/* immagine che compare con una dissolvenza quando è caricata, invece di "spuntare" */
+export function Img({ className = "", ...rest }) {
+  const ref = useRef(null);
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (el && el.complete && el.naturalWidth) setOk(true);
+  }, []);
+  return <img ref={ref} className={`fadeimg ${ok ? "is-loaded" : ""} ${className}`} onLoad={() => setOk(true)} {...rest} />;
 }
 
 const shots = p => {
@@ -36,13 +47,14 @@ export function ProjectCard({ project: p, index }) {
           <div className="pc__browser">
             <div className="pc__bar" aria-hidden="true"><i /><i /><i /></div>
             <div className="pc__shots">
-              {a && <img src={asset(a.src)} alt={a.alt} loading="lazy" decoding="async" width="1440" height="900" />}
-              {b && <img className="pc__alt" src={asset(b.src)} alt="" loading="lazy" decoding="async" width="1440" height="900" />}
+              {a && <Img src={asset(a.src)} alt={a.alt} loading="lazy" decoding="async" width="1440" height="900" />}
+              {b && <Img className="pc__alt" src={asset(b.src)} alt="" loading="lazy" decoding="async" width="1440" height="900" />}
             </div>
           </div>
+          <span className="pc__badge"><Badge project={p} /></span>
           {m && (
             <div className="pc__phone" aria-hidden="true">
-              <img src={asset(m.src)} alt="" loading="lazy" decoding="async" width="585" height="1266" />
+              <Img src={asset(m.src)} alt="" loading="lazy" decoding="async" width="585" height="1266" />
             </div>
           )}
         </div>
@@ -52,7 +64,6 @@ export function ProjectCard({ project: p, index }) {
             <h3 className="display pc__title">{p.title}</h3>
             <p className="pc__cat">{p.category}</p>
           </div>
-          <Badge project={p} />
           <span className="pc__go" aria-hidden="true">{Icon.arrow}</span>
         </div>
         <p className="pc__desc">{p.description}</p>
@@ -78,28 +89,23 @@ export default function Projects({ page = false }) {
   const list = allProjects.filter(p => filter === "all" || p.type === filter);
 
   return (
-    <section id="progetti" className={`section tone-ice projects ${page ? "projects--page" : ""}`} aria-labelledby="projects-title">
+    <section id="progetti" className="section tone-ice projects" aria-label="Progetti">
       <div className="container">
-        <SectionHead
-          index={page ? "Case studies" : "(02)"}
-          label="Progetti"
-          as={page ? "h1" : "h2"}
-          id="projects-title"
-          title={["Progetti", "selezionati."]}
-          aside={
-            <p>
-              Lavori per attività reali e concept dimostrativi, sempre indicati come tali. Ogni progetto ha il suo case study, con la demo consultabile in anteprima riservata.
-            </p>
-          }
-        />
+        {!page && (
+          <SectionHead
+            index="(02)"
+            label="Progetti"
+            id="projects-title"
+            title={["Progetti", "selezionati."]}
+            aside={<p>Lavori per attività reali e concept dimostrativi, sempre indicati come tali. Ogni progetto ha il suo case study, con la demo in anteprima riservata.</p>}
+          />
+        )}
 
         <div className="projects__bar">
-          <div className="projects__legend">
-            <span className="badge badge--client"><i aria-hidden="true" />Progetto cliente</span>
-            <span className="label">realizzato per un'attività reale</span>
-            <span className="badge badge--concept"><i aria-hidden="true" />Concept dimostrativo</span>
-            <span className="label">proposta di nostra iniziativa</span>
-          </div>
+          <ul className="projects__legend" aria-label="Legenda">
+            <li><span className="dot dot--client" aria-hidden="true" /><strong>Progetto cliente</strong> realizzato per un'attività reale</li>
+            <li><span className="dot dot--concept" aria-hidden="true" /><strong>Concept</strong> proposta dimostrativa di nostra iniziativa</li>
+          </ul>
           {page && (
             <div className="projects__filters" role="group" aria-label="Filtra i progetti">
               {FILTERS.filter(f => f.id === "all" || counts[f.id]).map(f => (

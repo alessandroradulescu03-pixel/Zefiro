@@ -68,8 +68,8 @@ function Shell() {
         setTimeout(() => {
           setPhase("idle");
           busy.current = false;
-        }, 900);
-      }, 750);
+        }, 680);
+      }, 560);
     },
     [navigate, reduced]
   );
