@@ -9,7 +9,7 @@
 //
 // Variabili (Supabase → Edge Functions → Secrets):
 //   RESEND_API_KEY      obbligatoria — chiave API di Resend
-//   OWNER_EMAIL         dove ricevi le richieste (predefinita: la tua Gmail)
+//   OWNER_EMAIL         dove ricevi le richieste (predefinita: zefiro.webagency@gmail.com)
 //   FROM_EMAIL          mittente, es. "ZEFIRO <ciao@tuodominio.it>"
 //                       (senza dominio verificato resta "ZEFIRO <onboarding@resend.dev>")
 //   SEND_CONFIRMATION   "true" per mandare la conferma al cliente (solo con dominio verificato)
@@ -21,7 +21,7 @@
 const env = (k: string, d = "") => Deno.env.get(k) ?? d;
 
 const RESEND_URL = env("RESEND_API_URL", "https://api.resend.com/emails");
-const OWNER = env("OWNER_EMAIL", "alessandro.radulescu03@gmail.com");
+const OWNER = env("OWNER_EMAIL", "zefiro.webagency@gmail.com");
 const FROM = env("FROM_EMAIL", "ZEFIRO <onboarding@resend.dev>");
 const SITE = env("SITE_URL", "https://alessandroradulescu03-pixel.github.io/Zefiro/").replace(/\/?$/, "/");
 const ORIGINS = env("ALLOWED_ORIGINS", "https://alessandroradulescu03-pixel.github.io,http://localhost:5173,http://localhost:4173")

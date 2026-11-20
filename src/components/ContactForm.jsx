@@ -5,7 +5,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useApp } from "../lib/app-context.js";
-import { scrollToTarget } from "../lib/smooth.js";
 import { Symbol } from "./Logo.jsx";
 import { site } from "../config/site.js";
 import { Button } from "./ui.jsx";
@@ -66,13 +65,13 @@ export default function ContactForm() {
   const [status, setStatus] = useState({ state: "idle", msg: "" });
   const [sent, setSent] = useState(null); // riepilogo della richiesta inviata
   const doneRef = useRef(null);
+  const formRef = useRef(null);
+  const [boxH, setBoxH] = useState(0); // altezza del modulo: la conferma occupa lo stesso spazio
   const { go } = useApp();
 
-  // dopo l'invio porta il pannello di conferma in vista e gli dà il focus
+  // la conferma prende il posto del modulo, nello stesso riquadro, senza spostare la pagina
   useEffect(() => {
-    if (!sent || !doneRef.current) return;
-    doneRef.current.focus({ preventScroll: true });
-    scrollToTarget(doneRef.current, { offset: -120 });
+    if (sent && doneRef.current) doneRef.current.focus({ preventScroll: true });
   }, [sent]);
 
   const check = (name, value) => {
@@ -131,6 +130,7 @@ export default function ContactForm() {
         website: data.website,
       };
       const out = await send(fields, `ZEFIRO · nuova richiesta da ${fields.Nome}`, raw);
+      setBoxH(formRef.current ? formRef.current.offsetHeight : 0);
       setSent({
         first: fields.Nome.split(" ")[0],
         email: fields.Email,
@@ -159,48 +159,35 @@ export default function ContactForm() {
   const aria = name => ({ "aria-invalid": errors[name] ? "true" : "false", "aria-describedby": `cf-${name}-err` });
 
   if (sent) {
-    const steps = [
-      ["Lettura", "Analizziamo la tua richiesta e la tua attività."],
-      ["Risposta", `Ti scriviamo a ${sent.email} con domande e prossimi passi.`],
-      ["Proposta", "Se il progetto è adatto, prepariamo una proposta su misura."],
-    ];
     return (
-      <div className="cf-done" ref={doneRef} tabIndex={-1} role="status" aria-live="polite" aria-labelledby="cf-done-title">
-        <div className="cf-done__mark" aria-hidden="true">
-          <svg viewBox="0 0 52 52" className="cf-done__check"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L37.5 19" /></svg>
-          <Symbol className="cf-done__sym" />
-        </div>
-        <p className="label cf-done__k">Richiesta inviata</p>
-        <h3 className="display cf-done__t" id="cf-done-title">Grazie {sent.first}, abbiamo ricevuto la tua richiesta.</h3>
-        <p className="cf-done__p">
-          {sent.confirmation
-            ? <>Ti abbiamo inviato un'email di conferma a <strong>{sent.email}</strong>. Se non la trovi, controlla nella cartella spam.</>
-            : <>La leggeremo con attenzione e ti risponderemo a <strong>{sent.email}</strong>.</>}
-        </p>
-
-        <dl className="cf-done__sum">
-          <div><dt className="label">Progetto</dt><dd>{sent.type}</dd></div>
-          {sent.company && <div><dt className="label">Attività</dt><dd>{sent.company}</dd></div>}
-          <div><dt className="label">Risposta a</dt><dd>{sent.email}</dd></div>
-        </dl>
-
-        <p className="label cf-done__next">Cosa succede ora</p>
-        <ol className="cf-done__steps">
-          {steps.map(([t, d], i) => (
-            <li key={t}><span className="mono">0{i + 1}</span><div><strong>{t}</strong><p>{d}</p></div></li>
-          ))}
-        </ol>
-
-        <div className="cf-done__actions">
-          <Button href="#/progetti" onClick={e => { e.preventDefault(); go("/progetti", { title: "Progetti" }); }}>Guarda i progetti</Button>
-          <button type="button" className="cf-done__again" onClick={() => setSent(null)}>Invia un'altra richiesta</button>
+      <div className="cf-done" ref={doneRef} tabIndex={-1} role="status" aria-live="polite" aria-labelledby="cf-done-title" style={{ minHeight: boxH || undefined }}>
+        <div className="cf-done__in">
+          <div className="cf-done__mark" aria-hidden="true">
+            <svg viewBox="0 0 52 52" className="cf-done__check"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L37.5 19" /></svg>
+            <Symbol className="cf-done__sym" />
+          </div>
+          <p className="label cf-done__k">Richiesta inviata</p>
+          <h3 className="display cf-done__t" id="cf-done-title">Grazie {sent.first}, abbiamo ricevuto la tua richiesta.</h3>
+          <p className="cf-done__p">
+            {sent.confirmation
+              ? <>Ti abbiamo inviato un'email di conferma a <strong>{sent.email}</strong>. Se non la trovi, controlla nello spam.</>
+              : <>La leggeremo con attenzione e ti risponderemo a <strong>{sent.email}</strong>.</>}
+          </p>
+          <dl className="cf-done__sum">
+            <div><dt className="label">Progetto</dt><dd>{sent.type}</dd></div>
+            {sent.company && <div><dt className="label">Attività</dt><dd>{sent.company}</dd></div>}
+          </dl>
+          <div className="cf-done__actions">
+            <Button href="#/progetti" onClick={e => { e.preventDefault(); go("/progetti", { title: "Progetti" }); }}>Guarda i progetti</Button>
+            <button type="button" className="cf-done__again" onClick={() => setSent(null)}>Invia un'altra richiesta</button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <form className="cf" id="contact-form" noValidate onSubmit={submit} aria-label="Modulo di richiesta progetto">
+    <form ref={formRef} className="cf" id="contact-form" noValidate onSubmit={submit} aria-label="Modulo di richiesta progetto">
       <div className="cf__row">
         {field("name", "Nome", <input id="cf-name" name="name" autoComplete="name" value={data.name} onChange={e => set("name", e.target.value)} onBlur={() => blur("name")} {...aria("name")} />)}
         {field("email", "Email", <input id="cf-email" name="email" type="email" autoComplete="email" inputMode="email" value={data.email} onChange={e => set("email", e.target.value)} onBlur={() => blur("email")} {...aria("email")} />)}

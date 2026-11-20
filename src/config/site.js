@@ -14,7 +14,7 @@ export const site = {
   country: "Italia",
   coords: "45.69°N — 9.67°E",
 
-  email: "alessandro.radulescu03@gmail.com",
+  email: "zefiro.webagency@gmail.com",
 
   socials: {
     // TODO: indirizzo del profilo Instagram di ZEFIRO, es. "https://www.instagram.com/zefiro.studio/"
@@ -42,7 +42,7 @@ export const site = {
      - Alternativa: vai su https://web3forms.com, inserisci la tua email, copia la
        "Access Key" che ti arriva e incollala qui sotto. Se è compilata, il sito
        usa Web3Forms al posto di FormSubmit. */
-  formEmail: "alessandro.radulescu03@gmail.com",
+  formEmail: "zefiro.webagency@gmail.com",
   web3formsKey: "",
 };
 
