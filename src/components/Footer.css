@@ -1,7 +1,7 @@
 .foot { position: relative; background: #050f24; padding-top: clamp(64px, 8vw, 112px); padding-bottom: env(safe-area-inset-bottom, 0px); border-top: 1px solid rgba(185, 199, 224, 0.1); }
 .foot__top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1.2fr); gap: 48px clamp(32px, 5vw, 80px); padding-bottom: clamp(56px, 7vw, 96px); }
-.foot__brand .logo__sym { width: 48px; }
-.foot__brand .logo__word { width: 124px; }
+.foot__brand .logo__sym { width: 56px; }
+.foot__brand .logo__word { width: 140px; }
 .foot__payoff { margin-top: 28px; font-size: clamp(28px, 3vw, 44px); letter-spacing: -0.035em; line-height: 1.08; max-width: 14ch; }
 .foot__col { display: flex; flex-direction: column; gap: 18px; }
 .foot__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }

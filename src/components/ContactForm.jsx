@@ -164,7 +164,7 @@ export default function ContactForm() {
         <div className="cf-done__in">
           <div className="cf-done__mark" aria-hidden="true">
             <svg viewBox="0 0 52 52" className="cf-done__check"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L37.5 19" /></svg>
-            <Symbol className="cf-done__sym" />
+            <Symbol className="cf-done__sym" tone="light" />
           </div>
           <p className="label cf-done__k">Richiesta inviata</p>
           <h3 className="display cf-done__t" id="cf-done-title">Grazie {sent.first}, abbiamo ricevuto la tua richiesta.</h3>

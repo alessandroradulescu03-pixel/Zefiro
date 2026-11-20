@@ -1,8 +1,8 @@
 /* logo (usato anche nel footer) */
 .logo { display: inline-flex; align-items: center; gap: 12px; color: var(--white); }
 .logo--light { color: var(--navy); }
-.logo__sym { width: 40px; height: auto; flex: none; }
-.logo__word { width: 104px; height: auto; }
+.logo__sym { width: 46px; height: auto; flex: none; }
+.logo__word { width: 118px; height: auto; }
 
 .nav {
   position: fixed;
@@ -104,8 +104,8 @@
 @media (max-width: 860px) {
   :root { --nav-h: 68px; }
   .nav__cta { display: none; }
-  .logo__sym { width: 34px; }
-  .logo__word { width: 92px; }
+  .logo__sym { width: 40px; }
+  .logo__word { width: 104px; }
 }
 @media (min-width: 1081px) {
   .nav__menu { display: none !important; }
