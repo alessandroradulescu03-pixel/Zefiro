@@ -26,6 +26,16 @@ export const site = {
   /* ---------- Modulo contatti ----------
      I messaggi arrivano davvero alla tua email, e il sito mostra l'esito reale
      dell'invio (se qualcosa va storto, lo dice).
+     - CONSIGLIATO, come per Mery Drift: Supabase + Resend (email con il brand ZEFIRO,
+       avviso a te + conferma al cliente, richieste salvate nel database).
+       Segui la guida "Email come Mery Drift" nel README, poi compila qui sotto:
+       contactEndpoint = https://<id-progetto>.supabase.co/functions/v1/zefiro-contatti
+       supabaseAnonKey = la chiave "anon public" (Project Settings → API). È pubblica per natura.
+       Se contactEndpoint è compilato, il sito usa questo al posto di FormSubmit/Web3Forms. */
+  contactEndpoint: "",
+  supabaseAnonKey: "",
+
+  /* Alternative senza Supabase:
      - Così com'è usa FormSubmit (gratis, senza account): al PRIMO invio ti arriva
        un'email "Activate Form" da confermare una volta sola. Finché non la confermi,
        il sito avvisa che il modulo è in attesa di attivazione.

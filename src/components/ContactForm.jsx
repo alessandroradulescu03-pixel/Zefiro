@@ -19,7 +19,19 @@ const RULES = {
   consent: v => v === true || "Serve il consenso per poterti rispondere.",
 };
 
-async function send(fields, subject) {
+async function send(fields, subject, raw) {
+  if (site.contactEndpoint) {
+    // Supabase Edge Function + Resend (come Mery Drift)
+    const headers = { "Content-Type": "application/json" };
+    if (site.supabaseAnonKey) {
+      headers.Authorization = `Bearer ${site.supabaseAnonKey}`;
+      headers.apikey = site.supabaseAnonKey;
+    }
+    const res = await fetch(site.contactEndpoint, { method: "POST", headers, body: JSON.stringify(raw) });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok || out.ok !== true) throw new Error(out.error || `HTTP ${res.status}`);
+    return { confirmation: !!out.confirmation };
+  }
   if (site.web3formsKey) {
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
@@ -28,7 +40,7 @@ async function send(fields, subject) {
     });
     const out = await res.json().catch(() => ({}));
     if (!res.ok || out.success === false) throw new Error(out.message || `HTTP ${res.status}`);
-    return;
+    return {};
   }
   if (!site.formEmail) throw new Error("Nessun servizio di invio configurato");
   const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(site.formEmail)}`, {
@@ -39,6 +51,7 @@ async function send(fields, subject) {
   const out = await res.json().catch(() => ({}));
   // FormSubmit risponde { success: "true" | "false", message }
   if (!res.ok || String(out.success) !== "true") throw new Error(out.message || `HTTP ${res.status}`);
+  return {};
 }
 
 export default function ContactForm() {
@@ -94,10 +107,25 @@ export default function ContactForm() {
       Descrizione: data.message.trim(),
     };
     try {
-      await send(fields, `ZEFIRO · nuova richiesta da ${fields.Nome}`);
+      const raw = {
+        nome: fields.Nome,
+        email: fields.Email,
+        azienda: data.company.trim(),
+        tipologia: data.type,
+        budget: data.budget,
+        descrizione: fields.Descrizione,
+        consenso: data.consent,
+        website: data.website,
+      };
+      const out = await send(fields, `ZEFIRO · nuova richiesta da ${fields.Nome}`, raw);
       setData(EMPTY);
       setTouched({});
-      setStatus({ state: "success", msg: "Richiesta inviata. Ti risponderemo all'indirizzo email che hai indicato." });
+      setStatus({
+        state: "success",
+        msg: out.confirmation
+          ? "Richiesta inviata. Ti abbiamo mandato un'email di conferma: controlla anche nello spam."
+          : "Richiesta inviata. Ti risponderemo all'indirizzo email che hai indicato.",
+      });
     } catch (err) {
       console.error("[ZEFIRO] invio modulo non riuscito:", err);
       setStatus({ state: "error", msg: "fail" });

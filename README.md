@@ -60,6 +60,37 @@ Campi: nome, email, azienda o attività, tipologia di progetto, budget indicativ
 - **Così com'è** usa **FormSubmit** (gratis, senza account) verso `formEmail` in `src/config/site.js`. Al **primo invio** arriva un'email "Activate Form": cliccala una volta sola, poi i messaggi arrivano normalmente.
 - **In alternativa**, [web3forms.com](https://web3forms.com): inserisci la tua email, copia la "Access Key" e incollala in `web3formsKey`. Se è compilata, il sito usa Web3Forms.
 
+## 5b. Email come Mery Drift (Supabase + Resend) — consigliato
+
+Con questa configurazione, a ogni richiesta dal sito:
+
+1. **tu ricevi un'email con il brand ZEFIRO** con tutti i dati, e il pulsante "Rispondi" scrive già al cliente;
+2. **il cliente riceve un'email di conferma** con il riepilogo (serve un dominio, vedi sotto);
+3. **la richiesta resta salvata** nella tabella `richieste_zefiro` su Supabase.
+
+File: `supabase/functions/zefiro-contatti/index.ts` (la funzione) e `supabase/richieste_zefiro.sql` (la tabella).
+
+**Attivazione (una volta sola, circa 10 minuti):**
+
+1. **Supabase**: puoi usare lo stesso account di Mery Drift. Crea un nuovo progetto `zefiro` (meglio tenerlo separato dai dati di Mery Drift).
+2. **Tabella**: SQL Editor → incolla il contenuto di `supabase/richieste_zefiro.sql` → **Run**.
+3. **Funzione**: Edge Functions → **Deploy a new function** → **Via Editor** → nome `zefiro-contatti` → incolla tutto `index.ts` → **Deploy**.
+4. **Chiavi** (Edge Functions → **Secrets**):
+   - `RESEND_API_KEY` = una chiave nuova da Resend → API Keys (puoi chiamarla "zefiro")
+   - `OWNER_EMAIL` = dove vuoi ricevere le richieste. Finché non hai un dominio, **deve essere l'email del tuo account Resend** (quella dell'account GitHub con cui ti sei registrato).
+5. **Sito**: in `src/config/site.js` compila
+   - `contactEndpoint`: `https://<id-progetto>.supabase.co/functions/v1/zefiro-contatti`
+   - `supabaseAnonKey`: Project Settings → API → chiave **anon public** (è pubblica per natura, va bene metterla nel sito)
+6. Fai il push e prova il modulo: l'email ti arriva in pochi secondi.
+
+**Conferma al cliente (quando avrai un dominio):** senza dominio, Resend permette di scrivere solo a te stesso, quindi all'inizio arriva solo l'avviso a te. Quando compri un dominio (es. su Aruba, come per Mery Drift):
+Resend → Domains → aggiungi il dominio → copia i record DNS su Aruba → aspetta la verifica. Poi nei Secrets di Supabase aggiungi
+`FROM_EMAIL` = `ZEFIRO <ciao@tuodominio.it>` e la conferma al cliente parte da sola.
+
+Altre impostazioni facoltative: `SITE_URL` (indirizzo del sito, per il logo nelle email), `ALLOWED_ORIGINS` (siti da cui accettare richieste, separati da virgola: aggiungi il dominio quando lo avrai), `SAVE_TO_DB=false` per non salvare le richieste.
+
+Le richieste le trovi in Supabase → Table Editor → `richieste_zefiro`; la colonna `stato` la puoi cambiare tu (nuova, in corso, chiusa).
+
 ## 6. Pubblicare su GitHub Pages
 
 Il workflow `.github/workflows/deploy.yml` costruisce e pubblica il sito a ogni push sul ramo `main` (Settings → Pages → Source: GitHub Actions).
