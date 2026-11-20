@@ -21,7 +21,7 @@ function toast(d, msg) {
     el = d.createElement("div");
     el.id = "__demo-toast";
     el.style.cssText =
-      "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483647;padding:10px 16px;border-radius:999px;background:#17181c;color:#f3f1ec;font:500 13px/1.3 system-ui,sans-serif;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);pointer-events:none;transition:opacity .3s;opacity:0";
+      "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483647;padding:10px 16px;border-radius:999px;background:#07152F;color:#FFFFFF;font:500 13px/1.3 system-ui,sans-serif;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);pointer-events:none;transition:opacity .3s;opacity:0";
     d.body.appendChild(el);
   }
   el.textContent = msg;

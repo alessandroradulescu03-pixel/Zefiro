@@ -1,55 +1,65 @@
 /* ==========================================================
-   THE DIGITAL SIGNATURE — design tokens
-   Palette "carta e inchiostro": fondo carta calda, testo inchiostro,
-   un solo colore d'accento (blu oltremare) e un verde bosco per i dettagli.
-   Le sezioni scure (.tone-dark) invertono gli stessi token.
-   Layout: griglia editoriale a 12 colonne, titoli monumentali, microtesti tecnici.
+   ZEFIRO Digital Studio — design tokens
+   Palette ufficiale: Midnight Navy dominante, Electric Blue per
+   pulsanti e interazioni, Sky Accent solo per piccoli dettagli.
+   Le sezioni chiare usano .tone-light / .tone-ice, quelle scure .tone-dark.
    ========================================================== */
 :root {
-  --bg: #f3f1ec;          /* carta */
-  --fg: #17181c;          /* inchiostro */
-  --surface: #e8e4dc;     /* pietra chiara */
-  --surface-2: #dcd7cd;
-  --accent: #2c46c4;      /* blu oltremare */
-  --accent-2: #2f5d50;    /* verde bosco */
-  --accent-3: #6b7280;    /* ardesia */
-  --on-accent: #f3f1ec;
+  /* palette ufficiale */
+  --navy: #07152f;
+  --blue: #1765e8;
+  --sky: #39b8f4;
+  --white: #ffffff;
+  --ice: #f3f6fb;
+  --slate: #53647f;
 
-  --muted: rgba(23, 24, 28, 0.64);
-  --muted-2: rgba(23, 24, 28, 0.44);
-  --line: rgba(23, 24, 28, 0.12);
-  --line-strong: rgba(23, 24, 28, 0.26);
-  --shadow: rgba(23, 24, 28, 0.22);
+  /* derivati (stessa famiglia cromatica) */
+  --navy-2: #0b1e44;      /* superfici su navy */
+  --navy-3: #10285a;
+  --blue-deep: #123dad;   /* inizio del gradiente del simbolo */
+  --mist: #b9c7e0;        /* testo secondario su navy */
 
-  --f-display: "Unbounded Variable", "Arial Black", Impact, sans-serif;
+  /* token di superficie: di default tono chiaro */
+  --bg: var(--white);
+  --fg: var(--navy);
+  --surface: var(--ice);
+  --muted: var(--slate);
+  --muted-2: rgba(83, 100, 127, 0.72);
+  --line: rgba(7, 21, 47, 0.1);
+  --line-strong: rgba(7, 21, 47, 0.2);
+  --accent: var(--blue);
+  --on-accent: var(--white);
+
+  --f-display: "Sora Variable", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Manrope Variable", "Helvetica Neue", Arial, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
 
-  --max: 1520px;
-  --gutter: clamp(20px, 4vw, 64px);
+  --max: 1360px;
+  --gutter: clamp(20px, 4vw, 56px);
   --gx-l: max(var(--gutter), env(safe-area-inset-left, 0px));
   --gx-r: max(var(--gutter), env(safe-area-inset-right, 0px));
   --nav-h: 76px;
+  --radius: 10px;
+  --section-y: clamp(88px, 12vw, 168px);
 
   color-scheme: light;
 }
 
-/* sezioni in negativo: stessi componenti, token invertiti */
+.tone-light { --bg: var(--white); background: var(--bg); color: var(--fg); }
+.tone-ice { --bg: var(--ice); --surface: var(--white); background: var(--bg); color: var(--fg); }
+
 .tone-dark {
-  --bg: #17181c;
-  --fg: #f3f1ec;
-  --surface: #222329;
-  --surface-2: #2c2d34;
-  --accent: #8ea2ff;      /* oltremare schiarito per il fondo scuro */
-  --on-accent: #17181c;
-  --muted: rgba(243, 241, 236, 0.66);
-  --muted-2: rgba(243, 241, 236, 0.44);
-  --line: rgba(243, 241, 236, 0.12);
-  --line-strong: rgba(243, 241, 236, 0.26);
-  --shadow: rgba(0, 0, 0, 0.5);
+  --bg: var(--navy);
+  --fg: var(--white);
+  --surface: var(--navy-2);
+  --muted: var(--mist);
+  --muted-2: rgba(185, 199, 224, 0.62);
+  --line: rgba(185, 199, 224, 0.14);
+  --line-strong: rgba(185, 199, 224, 0.28);
+  --accent: var(--sky);
   color-scheme: dark;
   background: var(--bg);
   color: var(--fg);

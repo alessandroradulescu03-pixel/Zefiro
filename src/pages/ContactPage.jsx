@@ -4,7 +4,7 @@ import Contact from "../components/Contact.jsx";
 
 export default function ContactPage() {
   useEffect(() => {
-    document.title = `Contact — ${site.name}`;
+    document.title = `Contatti — ${site.name}`;
   }, []);
   return <Contact page />;
 }

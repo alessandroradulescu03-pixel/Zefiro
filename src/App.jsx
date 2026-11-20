@@ -1,21 +1,24 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { HashRouter, MemoryRouter, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { HashRouter, MemoryRouter, Navigate, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "./lib/app-context.js";
 import { initSmooth, scrollToTarget, lockScroll } from "./lib/smooth.js";
 import { useReducedMotion } from "./hooks/useMotion.js";
-import Loader from "./components/Loader.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import PageTransition from "./components/PageTransition.jsx";
 import Home from "./pages/Home.jsx";
 import ProjectDetail from "./components/ProjectDetail.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import WorkPage from "./pages/WorkPage.jsx";
+import ProjectsPage from "./pages/ProjectsPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
-import Natale from "./components/Natale.jsx";
-import { NATALE } from "./lib/natale.js";
 
-/* HashRouter: indirizzi tipo #/work/padania-tuning, perfetti su GitHub Pages.
+/* vecchi indirizzi del portfolio (#/work/..., #/contact): restano validi */
+function LegacyProject() {
+  const { id } = useParams();
+  return <Navigate to={`/progetti/${id}`} replace />;
+}
+
+/* HashRouter: indirizzi tipo #/progetti/padania-tuning, perfetti su GitHub Pages.
    Se il browser non permette di cambiare l'indirizzo (anteprime incorporate), usa la memoria. */
 function canUseHistory() {
   try {
@@ -30,7 +33,7 @@ function Shell() {
   const reduced = useReducedMotion();
   const navigate = useNavigate();
   const location = useLocation();
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
   const [phase, setPhase] = useState("idle"); // idle → cover → reveal
   const [label, setLabel] = useState("");
   const busy = useRef(false);
@@ -89,19 +92,20 @@ function Shell() {
       <a className="skip-link" href="#main" onClick={e => { e.preventDefault(); const m = document.getElementById("main"); m && m.focus(); scrollToTarget("main", { immediate: true }); }}>
         Vai al contenuto
       </a>
-      <Loader />
       <Navbar />
       <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/work" element={<WorkPage />} />
-          <Route path="/work/:id" element={<ProjectDetail />} />
-          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/progetti" element={<ProjectsPage />} />
+          <Route path="/progetti/:id" element={<ProjectDetail />} />
+          <Route path="/contatti" element={<ContactPage />} />
+          <Route path="/work" element={<Navigate to="/progetti" replace />} />
+          <Route path="/work/:id" element={<LegacyProject />} />
+          <Route path="/contact" element={<Navigate to="/contatti" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
-      {NATALE && <Natale />}
       <PageTransition phase={phase} label={label} />
     </AppContext.Provider>
   );

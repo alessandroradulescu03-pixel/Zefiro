@@ -1,35 +1,45 @@
-/* Componenti di base riutilizzabili: pulsanti, reveal, testo diviso in righe, icone */
+/* Componenti di base riutilizzabili: pulsanti, reveal, testo diviso in righe, intestazioni */
 import { createElement } from "react";
 import { useMagnetic, useReveal } from "../hooks/useMotion.js";
 import "./ui.css";
 
 export const Icon = {
   arrow: (
-    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
       <path d="M4 12h16M14 6l6 6-6 6" />
     </svg>
   ),
   out: (
-    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
       <path d="M7 17 17 7M8 7h9v9" />
     </svg>
   ),
   down: (
-    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
       <path d="M12 4v16M6 14l6 6 6-6" />
     </svg>
   ),
   up: (
-    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
       <path d="M12 20V4M6 10l6-6 6 6" />
+    </svg>
+  ),
+  back: (
+    <svg className="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
+      <path d="M20 12H4M10 6l-6 6 6 6" />
+    </svg>
+  ),
+  spark: (
+    <svg className="ico ico--spark" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M20 0 L24.5 15.5 L40 20 L24.5 24.5 L20 40 L15.5 24.5 L0 20 L15.5 15.5Z" fill="currentColor" />
     </svg>
   ),
 };
 
-/* Pulsante con testo che rotola e attrazione magnetica.
-   href esterno → <a target=_blank>; onClick senza href → <button>; disabled → <span> non cliccabile */
-export function Button({ children, href, onClick, variant = "lime", size = "", icon = "arrow", external = false, disabled = false, type = "button", className = "", ...rest }) {
-  const mag = useMagnetic(0.25);
+/* variant: "primary" (blu) · "ghost" (bordo) · "light" (bianco su navy)
+   href → <a>; onClick senza href → <button>; disabled → <span> non cliccabile */
+export function Button({ children, href, onClick, variant = "primary", size = "", icon = "arrow", external = false, disabled = false, type = "button", className = "", ...rest }) {
+  const mag = useMagnetic(0.18);
   const cls = `btn btn--${variant} ${size ? "btn--" + size : ""} ${className}`;
   const inner = (
     <>
@@ -66,13 +76,13 @@ export function Reveal({ as = "div", className = "", delay = 0, style, children,
 }
 
 /* Titolo diviso in righe che salgono una dopo l'altra.
-   lines: array di stringhe o nodi. Parte quando il genitore ha .is-in o .is-ready */
-export function SplitLines({ as = "h2", lines, className = "", lineClass = [], ...rest }) {
+   Parte quando il genitore ha .is-in o .is-ready */
+export function SplitLines({ as = "h2", lines, className = "", ...rest }) {
   return createElement(
     as,
     { className: `split ${className}`, ...rest },
     lines.map((l, i) => (
-      <span className={`split__line ${lineClass[i] || ""}`} key={i}>
+      <span className="split__line" key={i}>
         <span className="split__in" style={{ "--i": i }}>{l}</span>
       </span>
     ))
@@ -83,21 +93,21 @@ export function Label({ children, className = "", ...rest }) {
   return <span className={`label ${className}`} {...rest}>{children}</span>;
 }
 
-/* Intestazione di sezione in stile editoriale svizzero:
-   regola che si disegna, indice "(01)", etichetta, meta a destra,
-   titolo monumentale e un testo a margine allineato al fondo. */
-export function SectionHead({ index, label, meta = "", title, as = "h2", id, aside, className = "" }) {
+/* Intestazione di sezione: indice mono, etichetta, regola che si disegna,
+   titolo e testo a margine */
+export function SectionHead({ index, label, title, as = "h2", id, aside, className = "" }) {
   const [ref, inView] = useReveal();
   return (
     <header ref={ref} className={`shead ${inView ? "is-in" : ""} ${className}`}>
-      <span className="shead__rule" aria-hidden="true" />
       <div className="shead__meta">
-        <span className="shead__idx mono">({index})</span>
+        <span className="shead__idx mono">{index}</span>
         <span className="label">{label}</span>
-        {meta && <span className="label shead__right">{meta}</span>}
+        <span className="shead__rule" aria-hidden="true" />
       </div>
-      <SplitLines as={as} id={id} className="display shead__title" lines={title} lineClass={title.map((_, i) => (i % 2 ? "shead__indent" : ""))} />
-      {aside && <div className="shead__aside">{aside}</div>}
+      <div className="shead__row">
+        <SplitLines as={as} id={id} className="display h2 shead__title" lines={title} />
+        {aside && <div className="shead__aside">{aside}</div>}
+      </div>
     </header>
   );
 }

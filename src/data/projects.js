@@ -14,7 +14,7 @@
                    "concept"  = proposta / demo non commissionata
                    "personal" = progetto personale
    status          "live" | "in-development" | "demo"
-   featured        true = grande in galleria · false = nell'archivio a elenco
+   published       true = visibile sul sito · false = nascosto (resta salvato qui)
    year, location, role
    cover           immagine in public/, es. "projects/padania-tuning/cover.webp"
                    (vuoto = copertina grafica generata con i colori)
@@ -41,7 +41,7 @@ export const projects = [
       "Piattaforma dedicata agli eventi automotive, alla community e alla gestione delle candidature.",
     type: "client",
     status: "in-development",
-    featured: true,
+    published: true,
     year: 2026,
     location: "Covo (BG)",
     role: "Design & development",
@@ -56,7 +56,7 @@ export const projects = [
     colors: { bg: "#0E0F12", fg: "#E7EAEE", accent: "#B9C0CA" },
     technologies: ["HTML", "CSS", "JavaScript", "Stripe", "GitHub Pages"],
     overview:
-      "Padania Tuning è una community e un evento dedicato alle auto modificate nella bassa bergamasca. Il sito è il punto di riferimento per chi vuole partecipare: presenta l'evento, raccoglie le iscrizioni e vende il merchandise ufficiale. Il vecchio sito era su WordPress; il nuovo è statico, più veloce e senza costi di piattaforma.",
+      "Padania Tuning è una community e un evento dedicato alle auto modificate nella bassa bergamasca. Il sito è il punto di riferimento per chi vuole partecipare: presenta l'evento, raccoglie le iscrizioni e vende il merchandise ufficiale. Il vecchio sito era su WordPress: il nuovo è statico, più veloce e senza costi di piattaforma.",
     objective:
       "Portare il sito fuori da WordPress senza perdere le funzioni che servono all'organizzazione, e rendere la versione mobile impeccabile, perché quasi tutto il pubblico arriva da smartphone.",
     visualDirection:
@@ -78,7 +78,7 @@ export const projects = [
       "Sito multipagina per una nuova realtà di drift su pista: scuola, noleggio auto e accessi.",
     type: "concept",
     status: "in-development",
-    featured: true,
+    published: false,
     year: 2026,
     location: "Covo (BG)",
     role: "Design & development",
@@ -114,7 +114,7 @@ export const projects = [
       "Sito per un circuito di motocross: orari della settimana, pista, info e come arrivare.",
     type: "concept",
     status: "in-development",
-    featured: false,
+    published: false,
     year: 2026,
     location: "Covo (BG)",
     role: "Design & development",
@@ -150,7 +150,7 @@ export const projects = [
       "One-page per un laboratorio di pellicolatura e cura estetica dell'auto.",
     type: "concept",
     status: "demo",
-    featured: true,
+    published: false,
     year: 2026,
     location: "Cortenuova (BG)",
     role: "Concept, design & development",
@@ -186,7 +186,7 @@ export const projects = [
       "E-commerce per un brand streetwear nato dal drift: drop in edizione limitata, lookbook e carrello.",
     type: "concept",
     status: "demo",
-    featured: true,
+    published: false,
     year: 2026,
     location: "Italia",
     role: "Concept, design & development",
@@ -224,7 +224,7 @@ export const projects = [
       "Concept per un'azienda di autotrasporto e logistica: servizi, flotta e richiesta di preventivo.",
     type: "concept",
     status: "demo",
-    featured: true,
+    published: false,
     year: 2026,
     location: "Cortenuova (BG)",
     role: "Concept, design & development",
@@ -260,7 +260,7 @@ export const projects = [
       "Web app per gestire gli ingressi il giorno dell'evento: scansione QR, lista iscritti e statistiche.",
     type: "client",
     status: "in-development",
-    featured: false,
+    published: false,
     year: 2026,
     location: "Covo (BG)",
     role: "Design & development",
@@ -296,7 +296,7 @@ export const projects = [
       "Concept web premium per un'attività specializzata in BMW, manutenzione, meccanica e preparazioni sportive.",
     type: "concept",
     status: "demo",
-    featured: true,
+    published: true,
     year: 2026,
     location: "Grumello del Monte (BG)",
     role: "Concept, design & development",
@@ -311,7 +311,7 @@ export const projects = [
     colors: { bg: "#0A0C0E", fg: "#EEF2F2", accent: "#2FC4B7" },
     technologies: ["HTML", "CSS", "JavaScript"],
     overview:
-      "MRC Automotive è un'officina che unisce manutenzione e diagnostica alle preparazioni sportive, con vendita di componenti racing e un servizio di compravendita e importazione auto. Ho preparato questo concept di mia iniziativa, per mostrare ai titolari come l'attività potrebbe presentarsi online.",
+      "MRC Automotive è un'officina che unisce manutenzione e diagnostica alle preparazioni sportive, con vendita di componenti racing e un servizio di compravendita e importazione auto. Abbiamo realizzato questo concept di nostra iniziativa, per mostrare ai titolari come l'attività potrebbe presentarsi online.",
     objective:
       "Dare all'officina un'immagine all'altezza delle preparazioni che realizza e portare il visitatore al contatto diretto in pochi tocchi.",
     visualDirection:
@@ -332,7 +332,7 @@ export const projects = [
       "Concept e-commerce dedicato a un brand streetwear, con un'esperienza visiva urbana e moderna.",
     type: "concept",
     status: "demo",
-    featured: true,
+    published: true,
     year: 2026,
     location: "Romano di Lombardia (BG)",
     role: "Concept, design & development",
@@ -347,7 +347,7 @@ export const projects = [
     colors: { bg: "#ECECE8", fg: "#0B0B0B", accent: "#0B0B0B" },
     technologies: ["React", "Vite", "GitHub Actions", "GitHub Pages"],
     overview:
-      "District Lab è un negozio streetwear aperto da poco, con abbigliamento, accessori e profumi tra brand emergenti e nomi internazionali. Era presente su Instagram e TikTok ma non aveva un sito: ho realizzato questo concept di e-commerce da mostrare ai titolari.",
+      "District Lab è un negozio streetwear aperto da poco, con abbigliamento, accessori e profumi tra brand emergenti e nomi internazionali. Era presente su Instagram e TikTok ma non aveva un sito: abbiamo realizzato questo concept di e-commerce da mostrare ai titolari.",
     objective:
       "Raccontare l'identità urbana del negozio e preparare la base per la vendita online, con un percorso d'acquisto semplice da telefono.",
     visualDirection:
@@ -362,13 +362,13 @@ export const projects = [
   {
     id: "zclean",
     number: "",
-    title: "ZClean",
+    title: "zClean",
     category: "Cleaning / Professional Services",
     description:
       "Esperienza web per un'attività di pulizie professionali, con focus sui servizi e sulla generazione di contatti.",
     type: "concept",
     status: "demo",
-    featured: true,
+    published: true,
     year: 2026,
     location: "Romano di Lombardia (BG)",
     role: "Concept, design & development",
@@ -383,7 +383,7 @@ export const projects = [
     colors: { bg: "#F5F8FC", fg: "#0A2A5E", accent: "#F5C21B" },
     technologies: ["HTML", "CSS", "JavaScript"],
     overview:
-      "ZClean è un'impresa di pulizie professionali della bassa bergamasca. Ho progettato un concept per presentare i servizi in modo più moderno e trasformare le visite in richieste di preventivo.",
+      "ZClean è un'impresa di pulizie professionali della bassa bergamasca. Abbiamo progettato un concept per presentare i servizi in modo più moderno e trasformare le visite in richieste di preventivo.",
     objective:
       "Spiegare i servizi in modo semplice e rendere la richiesta di preventivo il passo più naturale della visita.",
     visualDirection:
@@ -399,11 +399,11 @@ export const projects = [
 ];
 
 /* ---------- etichette e helper (non serve modificarli) ---------- */
-export const TYPE_LABEL = { client: "Client project", concept: "Concept", personal: "Personal project" };
-export const STATUS_LABEL = { live: "Live", "in-development": "In development", demo: "Demo" };
+export const TYPE_LABEL = { client: "Progetto cliente", concept: "Concept dimostrativo", personal: "Progetto personale" };
+export const STATUS_LABEL = { live: "Online", "in-development": "In sviluppo", demo: "Demo" };
 
 export const allProjects = projects
-  .filter(p => p && p.id && p.title)
+  .filter(p => p && p.id && p.title && p.published !== false)
   .map((p, i) => ({ ...p, number: p.number || String(i + 1).padStart(2, "0") }));
 
 export const findProject = id => allProjects.findIndex(p => p.id === id);

@@ -1,54 +1,26 @@
-/* 05 — Case study: generato dai dati in src/data/projects.js */
+/* Case study: generato dai dati in src/data/projects.js */
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useApp } from "../lib/app-context.js";
 import { useParallax } from "../hooks/useMotion.js";
 import { allProjects, findProject, asset, TYPE_LABEL, STATUS_LABEL } from "../data/projects.js";
 import { site } from "../config/site.js";
-import ProjectMockup from "./ProjectMockup.jsx";
-import { TypeBadges } from "./ProjectCard.jsx";
-import { Button, Reveal, SplitLines } from "./ui.jsx";
+import { Badge } from "./Projects.jsx";
+import { Button, Icon, Reveal, SplitLines } from "./ui.jsx";
 import NotFound from "../pages/NotFound.jsx";
 import DemoViewer from "./DemoViewer.jsx";
+import "./Projects.css";
 import "./ProjectDetail.css";
 
-function Block({ n, label, title, children, className = "" }) {
+function Block({ n, label, children, className = "" }) {
   return (
     <Reveal as="section" className={`cs-block ${className}`}>
-      <span className="cs-block__rule" aria-hidden="true" />
       <div className="cs-block__side">
-        <span className="cs-block__lab"><span className="mono">({n})</span><span className="label">{label}</span></span>
-        {title && <h2 className="display cs-block__title">{title}</h2>}
+        <span className="mono cs-block__n">{n}</span>
+        <h2 className="label cs-block__label">{label}</h2>
       </div>
       <div className="cs-block__body">{children}</div>
     </Reveal>
-  );
-}
-
-function Screens({ project }) {
-  if (project.gallery && project.gallery.length) {
-    return (
-      <div className="cs-gallery" style={{ "--tint": project.colors?.bg || "var(--surface)" }}>
-        {project.gallery.map((g, i) => (
-          <Reveal as="figure" key={g.src} delay={i * 80} className={`cs-shot cs-shot--${g.device || "desktop"}`}>
-            <div className="cs-shot__frame">
-              <img src={asset(g.src)} alt={g.alt || project.title} loading="lazy" decoding="async" />
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    );
-  }
-  // nessuno screenshot ancora: schermate stilizzate nei colori del cliente
-  return (
-    <div className="cs-screens">
-      <Reveal className="cs-screens__wide"><ProjectMockup project={project} layout="browser" /></Reveal>
-      <Reveal className="cs-screens__tall" delay={120}><ProjectMockup project={project} layout="phone" /></Reveal>
-      <div className="cs-screens__cap">
-        <span className="label">Fig. A — Desktop</span>
-        <span className="label">Fig. B — Mobile</span>
-      </div>
-    </div>
   );
 }
 
@@ -57,138 +29,166 @@ export default function ProjectDetail() {
   const { go } = useApp();
   const i = findProject(id);
   const p = allProjects[i];
-  const coverPar = useParallax(0.06);
+  const par = useParallax(0.05);
   const [shown, setShown] = useState(false);
   const [demo, setDemo] = useState(false);
   const closeDemo = useCallback(() => setDemo(false), []);
 
   useEffect(() => {
     setShown(false);
-    const t = setTimeout(() => setShown(true), 120);
+    const t = setTimeout(() => setShown(true), 80);
     return () => clearTimeout(t);
   }, [id]);
 
   useEffect(() => {
     if (!p) return;
-    document.title = `${p.title} — ${site.name}`;
+    document.title = `${p.title} — Case study — ${site.name}`;
     const d = document.querySelector('meta[name="description"]');
     const prev = d ? d.content : "";
     if (d) d.content = p.description;
     return () => {
-      document.title = `${site.name} — ${site.positioning}`;
       if (d) d.content = prev;
     };
   }, [p]);
 
   if (!p) return <NotFound />;
 
-  const prev = allProjects[(i - 1 + allProjects.length) % allProjects.length];
+  const desk = (p.gallery || []).filter(g => g.device !== "mobile");
+  const mob = (p.gallery || []).find(g => g.device === "mobile");
   const next = allProjects[(i + 1) % allProjects.length];
-  const nav = (e, proj) => {
-    e.preventDefault();
-    go(`/work/${proj.id}`, { title: proj.title });
-  };
   const canEmbed = !!p.demoUrl && p.demoMode !== "request";
-  const requestDemo = e => {
-    e.preventDefault();
-    go("/contact", { title: "Contact", data: { project: p.title } });
-  };
   const demoBtn = canEmbed ? (
     <Button onClick={() => setDemo(true)} icon="out">Guarda la demo</Button>
   ) : (
-    <Button href="#/contact" onClick={requestDemo}>Demo su richiesta</Button>
+    <Button href="#/contatti" onClick={e => { e.preventDefault(); go("/contatti", { title: "Contatti", data: { project: p.title } }); }}>
+      Demo su richiesta
+    </Button>
   );
 
   return (
     <article className="cs">
-      <header className={`cs-hero ${shown ? "is-ready" : ""}`}>
+      <header className={`cs-hero tone-dark ${shown ? "is-ready" : ""}`}>
         <div className="container">
           <div className="cs-hero__top">
-            <a className="cs-back label" href="#/work" onClick={e => { e.preventDefault(); go("/work", { title: "Case studies" }); }}>
-              ← Case studies
+            <a className="cs-back label" href="#/progetti" onClick={e => { e.preventDefault(); go("/progetti", { title: "Progetti" }); }}>
+              {Icon.back} Tutti i progetti
             </a>
             <span className="label">Case study {p.number} / {String(allProjects.length).padStart(2, "0")}</span>
           </div>
           <div className="cs-hero__grid">
-            <div className="cs-hero__head">
-              <span className="cs-hero__num mono">({p.number})</span>
-              <SplitLines as="h1" className="display cs-hero__title" lines={p.title.split(" ")} />
-              <span className="label">{p.category}</span>
+            <div>
+              <p className="cs-hero__cat label">{p.category}</p>
+              <SplitLines as="h1" className="display h1 cs-hero__title" lines={[p.title]} />
+              <p className="cs-hero__lead">{p.description}</p>
+              <div className="cs-hero__actions">
+                <Badge project={p} />
+                {demoBtn}
+              </div>
             </div>
             <dl className="cs-facts">
-              <div><dt>Type</dt><dd>{TYPE_LABEL[p.type]}</dd></div>
-              <div><dt>Status</dt><dd>{STATUS_LABEL[p.status] || "—"}</dd></div>
-              <div><dt>Year</dt><dd>{p.year}</dd></div>
-              {p.role && <div><dt>Role</dt><dd>{p.role}</dd></div>}
-              {p.location && <div><dt>Location</dt><dd>{p.location}</dd></div>}
+              <div><dt className="label">Tipologia</dt><dd>{TYPE_LABEL[p.type]}</dd></div>
+              <div><dt className="label">Stato</dt><dd>{STATUS_LABEL[p.status] || "—"}</dd></div>
+              <div><dt className="label">Anno</dt><dd>{p.year}</dd></div>
+              {p.location && <div><dt className="label">Luogo</dt><dd>{p.location}</dd></div>}
+              {p.role && <div><dt className="label">Lavoro svolto</dt><dd>{p.role}</dd></div>}
             </dl>
           </div>
         </div>
-        <div className="cs-hero__stage container">
-          <div className="cs-hero__frame">
-            <div className="cs-hero__par" ref={coverPar}>
-              <ProjectMockup project={p} layout="duo" />
+        {desk[0] && (
+          <div className="container cs-hero__stage">
+            <div className="cs-hero__par" ref={par}>
+              <div className="cs-frame">
+                <div className="cs-frame__bar" aria-hidden="true"><i /><i /><i /></div>
+                <img src={asset(desk[0].src)} alt={desk[0].alt} width="1440" height="900" decoding="async" />
+              </div>
+              {mob && (
+                <div className="cs-phone">
+                  <img src={asset(mob.src)} alt={mob.alt} width="585" height="1266" decoding="async" loading="lazy" />
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        )}
       </header>
 
-      <div className="container cs-body">
-        <Reveal className="cs-intro">
-          <TypeBadges project={p} />
-          <p className="cs-intro__lead">{p.description}</p>
-          <div className="cs-intro__actions">{demoBtn}</div>
+      <div className="cs-body tone-light">
+        <div className="container">
           {p.type === "concept" && (
-            <p className="cs-intro__note">Concept realizzato di mia iniziativa: non è un sito commissionato né pubblicato dall'attività.</p>
+            <Reveal className="cs-note">
+              <span className="badge badge--concept"><i aria-hidden="true" />Concept dimostrativo</span>
+              <p>Proposta realizzata di nostra iniziativa per mostrare all'attività una possibile presenza online: non è un sito commissionato né pubblicato dall'attività.</p>
+            </Reveal>
           )}
-        </Reveal>
+          {p.type === "client" && (
+            <Reveal className="cs-note cs-note--client">
+              <span className="badge badge--client"><i aria-hidden="true" />Progetto cliente{p.status ? ` · ${STATUS_LABEL[p.status]}` : ""}</span>
+              <p>Progetto realizzato per un'attività reale.{p.status === "in-development" ? " Il lavoro è ancora in corso: alcune parti possono cambiare prima della pubblicazione definitiva." : ""}</p>
+            </Reveal>
+          )}
 
-        <Block n="01" label="Overview" title="Il progetto">
-          <p className="cs-text">{p.overview}</p>
-        </Block>
+          <Block n="01" label="Il progetto">
+            <p className="cs-text cs-text--big">{p.overview}</p>
+          </Block>
+          <Block n="02" label="Obiettivo">
+            <p className="cs-text">{p.objective}</p>
+          </Block>
+          <Block n="03" label="Direzione visiva">
+            <p className="cs-text">{p.visualDirection}</p>
+            {p.colors && (
+              <ul className="cs-swatches" aria-label="Colori principali del progetto">
+                {[p.colors.bg, p.colors.fg, p.colors.accent].filter((c, k, a) => c && a.indexOf(c) === k).map(c => (
+                  <li key={c}><span style={{ background: c }} /><span className="mono">{c.toUpperCase()}</span></li>
+                ))}
+              </ul>
+            )}
+          </Block>
+          <Block n="04" label="Funzionalità">
+            <ol className="cs-features">
+              {p.features.map((f, k) => (
+                <li key={f}><span className="mono">{String(k + 1).padStart(2, "0")}</span><p>{f}</p></li>
+              ))}
+            </ol>
+          </Block>
+          <Block n="05" label="Tecnologie">
+            <ul className="cs-tech">{p.technologies.map(t => <li key={t} className="mono">{t}</li>)}</ul>
+          </Block>
+        </div>
 
-        <Block n="02" label="Objective" title="Obiettivo">
-          <p className="cs-text cs-text--big">{p.objective}</p>
-        </Block>
-
-        <Block n="03" label="Visual direction" title="Direzione visiva">
-          <p className="cs-text">{p.visualDirection}</p>
-        </Block>
-
-        <Block n="04" label="Features" title="Funzionalità">
-          <ol className="cs-features">
-            {p.features.map((f, k) => (
-              <li key={f}><span className="mono">F.{String(k + 1).padStart(2, "0")}</span><p>{f}</p></li>
+        {desk.length > 1 && (
+          <div className="container cs-gallery">
+            {desk.slice(1).map((g, k) => (
+              <Reveal as="figure" key={g.src} delay={k * 80} className="cs-frame cs-frame--wide">
+                <div className="cs-frame__bar" aria-hidden="true"><i /><i /><i /></div>
+                <img src={asset(g.src)} alt={g.alt} loading="lazy" decoding="async" width="1440" height="900" />
+              </Reveal>
             ))}
-          </ol>
-        </Block>
-
-        <Block n="05" label="Technologies" title="Stack">
-          <ul className="cs-tech">
-            {p.technologies.map(t => <li key={t}>{t}</li>)}
-          </ul>
-        </Block>
-
-        <Block n="06" label="Screens" title={null} className="cs-block--wide">
-          <Screens project={p} />
-          <div className="cs-demo-cta">
-            <p>{canEmbed ? "Puoi navigare la demo completa qui, in anteprima riservata." : "La demo completa è disponibile su richiesta."}</p>
-            {demoBtn}
           </div>
-        </Block>
+        )}
+
+        <div className="container">
+          <Reveal className="cs-demo">
+            <div>
+              <p className="label">Demo</p>
+              <p className="cs-demo__t display">
+                {canEmbed ? "Naviga la demo completa in anteprima riservata." : "La demo completa è disponibile su richiesta."}
+              </p>
+            </div>
+            {demoBtn}
+          </Reveal>
+        </div>
       </div>
 
       {allProjects.length > 1 && (
-        <nav className="cs-pn" aria-label="Altri progetti">
-          <a href={`#/work/${prev.id}`} onClick={e => nav(e, prev)} className="cs-pn__item cs-pn__item--prev" data-cursor="Prev">
-            <span className="label">← Previous project</span>
-            <span className="cs-pn__title display">{prev.title}</span>
-            <span className="cs-pn__thumb" aria-hidden="true"><ProjectMockup project={prev} interactive={false} /></span>
-          </a>
-          <a href={`#/work/${next.id}`} onClick={e => nav(e, next)} className="cs-pn__item cs-pn__item--next" data-cursor="Next">
-            <span className="label">Next project →</span>
-            <span className="cs-pn__title display">{next.title}</span>
-            <span className="cs-pn__thumb" aria-hidden="true"><ProjectMockup project={next} interactive={false} /></span>
+        <nav className="cs-next tone-dark" aria-label="Progetto successivo">
+          <a
+            className="container cs-next__in"
+            href={`#/progetti/${next.id}`}
+            onClick={e => { e.preventDefault(); go(`/progetti/${next.id}`, { title: next.title }); }}
+          >
+            <span className="label">Progetto successivo</span>
+            <span className="cs-next__title display">{next.title}</span>
+            <span className="cs-next__cat">{next.category}</span>
+            <span className="cs-next__go" aria-hidden="true">{Icon.arrow}</span>
           </a>
         </nav>
       )}

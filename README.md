@@ -1,7 +1,7 @@
-# The Digital Signature — Portfolio di Alessandro Radulescu
+# ZEFIRO Digital Studio — sito istituzionale
 
-Portfolio in **React + Vite**, pronto per **GitHub Pages**.
-Concept: la tua firma diventa un nastro 3D lime che si disegna all'apertura del sito.
+**Digital ideas. Real impact.**
+Sito di ZEFIRO Digital Studio in **React + Vite**, pubblicato su **GitHub Pages**.
 
 ---
 
@@ -10,8 +10,8 @@ Concept: la tua firma diventa un nastro 3D lime che si disegna all'apertura del 
 Serve [Node.js](https://nodejs.org) (versione 20 o più recente). Dal Terminale, nella cartella del progetto:
 
 ```bash
-npm install      # solo la prima volta
-npm run dev      # apre il sito in locale con aggiornamento automatico
+npm install      # la prima volta e dopo questo aggiornamento (dipendenze cambiate)
+npm run dev      # sito in locale con aggiornamento automatico
 ```
 
 Per provare la versione finale: `npm run build` e poi `npm run preview`.
@@ -19,101 +19,58 @@ Per provare la versione finale: `npm run build` e poi `npm run preview`.
 ## 2. Dove si modifica cosa
 
 ```
-src/config/site.js     ← I TUOI DATI: nome, email, social, WhatsApp, foto, form
-src/data/projects.js   ← I TUOI PROGETTI (database)
+src/config/site.js     ← DATI DEL BRAND: email, Instagram, LinkedIn, modulo contatti, menu
+src/data/projects.js   ← PROGETTI (database)
 public/projects/       ← screenshot dei progetti
-public/about/          ← la tua foto profilo (cartella da creare)
+public/brand/          ← file ufficiali del logo ZEFIRO
+public/favicon.svg     ← favicon ufficiale (+ favicon-32.png e apple-touch-icon.png)
 public/og-image.png    ← anteprima quando condividi il link (1200 × 630)
 src/components/        ← sezioni del sito, ognuna con il suo .jsx e .css
-src/styles/tokens.css  ← colori, font, spaziature
+src/styles/tokens.css  ← palette ufficiale, font, spaziature
 ```
 
-Tutti i punti da completare sono segnati con `TODO`.
+I punti da completare sono segnati con `TODO` (Instagram e LinkedIn di ZEFIRO).
 
-## 3. Aggiungere un progetto
+## 3. Pagine
 
-1. Apri `src/data/projects.js`.
-2. Copia un blocco `{ ... },` e incollalo nella lista, nella posizione in cui vuoi vederlo.
-3. Cambia i valori. L'`id` deve essere unico, minuscolo, con i trattini: `mery-drift`.
-4. Salva. Il progetto compare in galleria con il suo numero e ha il suo case study su `#/work/mery-drift`.
+- `#/` Home: hero, servizi, metodo, progetti, studio, contatti
+- `#/progetti` tutti i case study, `#/progetti/<id>` il singolo progetto
+- `#/contatti` pagina contatti con il modulo
 
-**Tipologia (`type`)** — viene mostrata in modo chiaro su card e case study:
+I vecchi indirizzi del portfolio (`#/work`, `#/work/<id>`, `#/contact`) rimandano automaticamente a quelli nuovi.
 
-| valore | significato |
-| --- | --- |
-| `client` | lavoro per un cliente reale |
-| `concept` | proposta o demo fatta di tua iniziativa (il case study lo dichiara) |
-| `personal` | progetto personale |
+## 4. Progetti
 
-**Stato (`status`)**: `live`, `in-development` oppure `demo`.
+Ogni progetto è un blocco `{ ... }` in `src/data/projects.js`.
 
-**`featured`**: `true` = composizione grande in galleria; `false` = va nell'**archivio a elenco** sotto la galleria. Con 20-30 progetti, tieni 4-6 featured e il resto in archivio.
+- **`published`**: `true` = visibile sul sito, `false` = nascosto ma salvato. Oggi sono visibili Padania Tuning, MRC Automotive, District Lab e zClean; gli altri (Mery Drift, MXE.45, Lunar Detailing, SSW, Soprani Trasporti, Check-in) sono nascosti: per mostrarli basta mettere `published: true`.
+- **`type`**: `client` = progetto per un'attività reale · `concept` = concept dimostrativo di nostra iniziativa. Card e case study lo dichiarano sempre in modo chiaro.
+- **`status`**: `live`, `in-development` oppure `demo`.
+- **`gallery`**: screenshot in `public/projects/<id>/` (`desktop.webp`, `desktop-2.webp`, `mobile.webp`).
+- **`demoUrl`**: non viene mai mostrato come link. "Guarda la demo" apre il sito dentro ZEFIRO, in un'anteprima riservata in cui invii, pagamenti e link esterni sono disattivati. Con `demoMode: "request"` compare "Demo su richiesta".
 
-### Screenshot
+## 5. Modulo contatti (invio reale)
 
-1. Crea `public/projects/<id>/` (es. `public/projects/padania-tuning/`).
-2. Metti la copertina in formato **.webp**, circa 1600 × 1000 px.
-3. Nel progetto: `cover: "projects/padania-tuning/cover.webp"`.
-4. Galleria del case study:
-   ```js
-   gallery: [
-     { src: "projects/padania-tuning/home.webp", alt: "Home page", device: "desktop" },
-     { src: "projects/padania-tuning/mobile.webp", alt: "Versione mobile", device: "mobile" },
-   ],
-   ```
+Campi: nome, email, azienda o attività, tipologia di progetto, budget indicativo (facoltativo), descrizione, consenso. Il sito legge la risposta del servizio di invio e mostra l'esito vero: se l'invio fallisce lo dice e propone l'email diretta. Non simula mai un invio riuscito.
 
-Finché `cover` è vuota, il sito genera una copertina grafica con i `colors` del progetto. Finché `gallery` è vuota, il case study mostra la copertina dentro un computer e un telefono.
+- **Così com'è** usa **FormSubmit** (gratis, senza account) verso `formEmail` in `src/config/site.js`. Al **primo invio** arriva un'email "Activate Form": cliccala una volta sola, poi i messaggi arrivano normalmente.
+- **In alternativa**, [web3forms.com](https://web3forms.com): inserisci la tua email, copia la "Access Key" e incollala in `web3formsKey`. Se è compilata, il sito usa Web3Forms.
 
-Per convertire in .webp sul Mac: apri l'immagine con Anteprima → Esporta, oppure usa [squoosh.app](https://squoosh.app).
+## 6. Pubblicare su GitHub Pages
 
-### Demo (link nascosto)
+Il workflow `.github/workflows/deploy.yml` costruisce e pubblica il sito a ogni push sul ramo `main` (Settings → Pages → Source: GitHub Actions).
+I percorsi sono relativi (`base: "./"`). Se cambi indirizzo o colleghi un dominio, aggiorna i link in `index.html` (canonical, og, JSON-LD), `public/robots.txt` e `public/sitemap.xml`.
 
-- `demoUrl` è l'indirizzo della demo. **Non viene mai mostrato**: nel case study il pulsante "Guarda la demo" apre il sito dentro il portfolio, in una finestra senza barra degli indirizzi, senza aprire nuove schede.
-- `demoMode: "request"` (o `demoUrl` vuoto) mostra invece "Demo su richiesta": porta alla pagina Contatti con il messaggio già scritto.
-- Onestamente: chi sa usare gli strumenti per sviluppatori del browser può comunque risalire all'indirizzo. Per proteggere davvero il codice, tieni privati i repository delle demo su GitHub.
+## 7. Cosa c'è dentro
 
-## Pagine
+- **Hero "Flusso → Struttura"**: le linee del vento (le stesse curve del simbolo) attraversano una griglia di progetto e mettono in ordine i moduli di una pagina. Si disegna una volta all'apertura; con il mouse i livelli si spostano di pochi pixel.
+- **Servizi** con un disegno dedicato per ognuno, che si anima al passaggio.
+- **Metodo** con timeline che si riempie con lo scroll e accende le fasi.
+- **Card progetto** con screenshot reali, cambio immagine e telefono al passaggio.
+- Smooth scrolling (Lenis), reveal allo scroll, transizioni tra pagine con il simbolo ZEFIRO.
+- **Accessibilità**: navigazione da tastiera, "Vai al contenuto", focus visibili, menu chiudibile con Esc. Con "Riduci movimento" attivo, animazioni e smooth scroll si spengono.
+- **SEO**: title e description per pagina, Open Graph, dati strutturati (ProfessionalService), sitemap e robots.
 
-- `#/` Home: chi sei, cosa fai, metodo, filosofia, anteprima dei case study
-- `#/work` Case studies, `#/work/<id>` il singolo progetto
-- `#/contact` Contatti con il form
+## 8. Dipendenze
 
-## 4. Form contatti
-
-Il form controlla i campi e mostra gli errori. Per l'invio:
-
-- **Senza configurazione**: apre l'app email del visitatore con il messaggio già scritto, e lo dice chiaramente sul pulsante ("Send via email").
-- **Per ricevere i messaggi direttamente nella tua casella** (consigliato):
-  1. crea un account gratuito su [formspree.io](https://formspree.io);
-  2. crea un nuovo form e copia l'indirizzo, tipo `https://formspree.io/f/abcdwxyz`;
-  3. incollalo in `formEndpoint` dentro `src/config/site.js`.
-
-  Il pulsante diventa "Send message", il messaggio arriva per email e il visitatore vede la conferma.
-  Il form ha anche un campo nascosto anti-spam.
-
-## 5. Pubblicare su GitHub Pages
-
-Il progetto contiene già il workflow `.github/workflows/deploy.yml`, che costruisce e pubblica il sito da solo a ogni push.
-
-1. Crea un repository su GitHub, per esempio `portfolio`.
-2. Carica la cartella con GitHub Desktop (Commit → Push). La cartella `node_modules` è esclusa in automatico.
-3. Su GitHub: **Settings → Pages → Source: GitHub Actions**.
-4. Nella scheda **Actions** vedi la pubblicazione; dopo un paio di minuti il sito è su
-   `https://alessandroradulescu03-pixel.github.io/portfolio/`.
-
-I percorsi sono relativi, quindi il sito funziona con qualsiasi nome di repository.
-Se il nome **non** è `portfolio`, aggiorna gli indirizzi in `index.html` (canonical e og), `public/robots.txt` e `public/sitemap.xml`.
-
-## 6. Cosa c'è dentro
-
-- **Loader** con animazione tipografica, una volta per sessione, con "Skip intro" (o Esc).
-- **Firma 3D** in Three.js: è la tua firma, ricalcata e salvata in `src/lib/signature.json` (copia piatta in `public/signature.svg`), caricata solo dopo la pagina; si ridisegna con "↻ Re-sign"; senza WebGL diventa un'immagine SVG.
-- **Smooth scrolling** (Lenis), reveal allo scroll, image reveal, parallax leggero, transizioni tra pagine, cursore personalizzato solo con il mouse, pulsanti magnetici.
-- **Filosofia** con le parole che si accendono scorrendo.
-- **Footer** con orologio di Bergamo e un riquadro dove chi visita può lasciare la sua firma.
-- **Accessibilità**: navigazione da tastiera, link "Vai al contenuto", focus visibili, menu chiudibile con Esc. Con "Riduci movimento" attivo nel sistema, loader, cursore, smooth scroll e animazioni si disattivano.
-- **SEO**: title e description per ogni pagina, Open Graph, dati strutturati, sitemap e robots.
-
-## 7. Dipendenze
-
-React, React Router, Three.js, Lenis e i font (Unbounded, Manrope, JetBrains Mono) installati in locale tramite Fontsource: nessuna richiesta a servizi esterni per i caratteri.
+React, React Router, Lenis e i font **Sora** (titoli), **Manrope** (testi) e **JetBrains Mono** (dettagli tecnici), installati in locale tramite Fontsource: nessuna richiesta a servizi esterni per i caratteri.

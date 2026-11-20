@@ -1,33 +1,56 @@
-/* Form di contatto reale:
-   - con site.formEndpoint (FormSubmit) o site.web3formsKey (Web3Forms) invia davvero il messaggio e mostra l'esito
-   - senza endpoint apre l'app email del visitatore con il messaggio già scritto, e lo dice chiaramente */
+/* Modulo contatti reale.
+   Invia tramite Web3Forms (se site.web3formsKey è compilata) oppure FormSubmit (endpoint AJAX):
+   in entrambi i casi legge la risposta del servizio e mostra l'esito vero,
+   senza mai simulare un invio riuscito. */
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { site } from "../config/site.js";
 import { Button } from "./ui.jsx";
 
-const TYPES = ["Sito vetrina", "E-commerce", "Web app", "Restyling di un sito esistente", "Altro"];
-const EMPTY = { name: "", email: "", type: "", message: "", consent: false, company: "" };
+const TYPES = ["Sito vetrina", "E-commerce", "Web app", "Restyling di un sito esistente", "Digital identity", "Altro"];
+const BUDGETS = ["Preferisco parlarne", "Fino a 1.500 €", "1.500 – 3.000 €", "3.000 – 6.000 €", "Oltre 6.000 €"];
+const EMPTY = { name: "", email: "", company: "", type: "", budget: "", message: "", consent: false, website: "" };
 
 const RULES = {
   name: v => v.trim().length >= 2 || "Scrivi il tuo nome.",
   email: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || "Inserisci un indirizzo email valido.",
-  type: v => !!v || "Scegli il tipo di progetto.",
-  message: v => v.trim().length >= 10 || "Raccontami qualcosa in più (almeno 10 caratteri).",
+  type: v => !!v || "Scegli la tipologia di progetto.",
+  message: v => v.trim().length >= 20 || "Raccontaci qualcosa in più (almeno 20 caratteri).",
   consent: v => v === true || "Serve il consenso per poterti rispondere.",
 };
+
+async function send(fields, subject) {
+  if (site.web3formsKey) {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ access_key: site.web3formsKey, subject, from_name: site.name, replyto: fields.Email, ...fields }),
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok || out.success === false) throw new Error(out.message || `HTTP ${res.status}`);
+    return;
+  }
+  if (!site.formEmail) throw new Error("Nessun servizio di invio configurato");
+  const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(site.formEmail)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ ...fields, _replyto: fields.Email, _subject: subject, _template: "table", _captcha: "false" }),
+  });
+  const out = await res.json().catch(() => ({}));
+  // FormSubmit risponde { success: "true" | "false", message }
+  if (!res.ok || String(out.success) !== "true") throw new Error(out.message || `HTTP ${res.status}`);
+}
 
 export default function ContactForm() {
   const location = useLocation();
   const asked = location.state && location.state.data && location.state.data.project;
-  const [data, setData] = useState(() => (asked ? { ...EMPTY, message: `Ciao, vorrei vedere la demo di ${asked}.` } : EMPTY));
+  const [data, setData] = useState(() => (asked ? { ...EMPTY, message: `Buongiorno, vorrei vedere la demo del progetto ${asked}.` } : EMPTY));
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState({ state: "idle", msg: "" });
-  const direct = !!site.formEndpoint;
 
   const check = (name, value) => {
-    const res = RULES[name](value);
+    const res = RULES[name] ? RULES[name](value) : true;
     return res === true ? "" : res;
   };
   const set = (name, value) => {
@@ -55,54 +78,37 @@ export default function ContactForm() {
       setStatus({ state: "error", msg: "Controlla i campi evidenziati." });
       return;
     }
-    if (data.company) return; // campo anti-spam compilato: è un bot
-
-    if (!direct) {
-      const body = `Ciao ${site.firstName},\n\n${data.message.trim()}\n\nTipo di progetto: ${data.type}\n\n${data.name.trim()}\n${data.email.trim()}`;
-      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent("Nuovo progetto: " + data.type)}&body=${encodeURIComponent(body)}`;
-      setStatus({ state: "info", msg: `Ho aperto la tua app email con il messaggio pronto: premi Invia da lì. Se non si è aperta, scrivimi a ${site.email}.` });
+    if (data.website) {
+      // campo nascosto compilato: è un bot, non inviamo nulla
+      setStatus({ state: "error", msg: "Invio bloccato dal filtro anti-spam." });
       return;
     }
 
     setStatus({ state: "sending", msg: "Invio in corso…" });
     const fields = {
       Nome: data.name.trim(),
-      email: data.email.trim(),
-      "Tipo di progetto": data.type,
-      Messaggio: data.message.trim(),
+      Email: data.email.trim(),
+      "Azienda o attività": data.company.trim() || "—",
+      "Tipologia di progetto": data.type,
+      "Budget indicativo": data.budget || "Non indicato",
+      Descrizione: data.message.trim(),
     };
-    const subject = `Portfolio · nuovo messaggio da ${data.name.trim()}`;
     try {
-      if (site.web3formsKey) {
-        // Web3Forms: risposta leggibile, errore reale se qualcosa va storto
-        const res = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ access_key: site.web3formsKey, subject, from_name: "Portfolio", replyto: fields.email, ...fields }),
-        });
-        const out = await res.json().catch(() => ({}));
-        if (!res.ok || out.success === false) throw new Error(out.message || String(res.status));
-      } else {
-        // FormSubmit: invio classico del modulo (niente CORS da gestire)
-        const fd = new FormData();
-        Object.entries(fields).forEach(([k, v]) => fd.append(k, v));
-        fd.append("_replyto", fields.email);
-        fd.append("_subject", subject);
-        fd.append("_template", "table");
-        fd.append("_captcha", "false");
-        await fetch(site.formEndpoint, { method: "POST", body: fd, mode: "no-cors" });
-      }
+      await send(fields, `ZEFIRO · nuova richiesta da ${fields.Nome}`);
       setData(EMPTY);
       setTouched({});
-      setStatus({ state: "success", msg: "Messaggio inviato. Ti rispondo entro 24-48 ore." });
-    } catch {
-      setStatus({ state: "error", msg: `Invio non riuscito. Riprova tra poco o scrivimi direttamente a ${site.email}.` });
+      setStatus({ state: "success", msg: "Richiesta inviata. Ti risponderemo all'indirizzo email che hai indicato." });
+    } catch (err) {
+      console.error("[ZEFIRO] invio modulo non riuscito:", err);
+      setStatus({ state: "error", msg: "fail" });
     }
   }
 
-  const field = (name, label, el) => (
+  const field = (name, label, el, opt = false) => (
     <div className={`cf__field ${errors[name] ? "is-error" : ""}`}>
-      <label htmlFor={`cf-${name}`}>{label}</label>
+      <label htmlFor={`cf-${name}`}>
+        {label} {opt && <span className="cf__opt">facoltativo</span>}
+      </label>
       {el}
       <span className="cf__err" id={`cf-${name}-err`} aria-live="polite">{errors[name] || ""}</span>
     </div>
@@ -110,39 +116,48 @@ export default function ContactForm() {
   const aria = name => ({ "aria-invalid": errors[name] ? "true" : "false", "aria-describedby": `cf-${name}-err` });
 
   return (
-    <form className="cf" id="contact-form" noValidate onSubmit={submit} aria-labelledby="cf-title">
-      <div className="cf__head">
-        <span className="label label--lime" id="cf-title">Start a project</span>
-        <span className="label">{direct ? "Risposta in 24-48 h" : "Si apre la tua app email"}</span>
-      </div>
+    <form className="cf" id="contact-form" noValidate onSubmit={submit} aria-label="Modulo di richiesta progetto">
       <div className="cf__row">
         {field("name", "Nome", <input id="cf-name" name="name" autoComplete="name" value={data.name} onChange={e => set("name", e.target.value)} onBlur={() => blur("name")} {...aria("name")} />)}
-        {field("email", "Email", <input id="cf-email" name="email" type="email" autoComplete="email" value={data.email} onChange={e => set("email", e.target.value)} onBlur={() => blur("email")} {...aria("email")} />)}
+        {field("email", "Email", <input id="cf-email" name="email" type="email" autoComplete="email" inputMode="email" value={data.email} onChange={e => set("email", e.target.value)} onBlur={() => blur("email")} {...aria("email")} />)}
       </div>
-      {field("type", "Tipo di progetto", (
-        <select id="cf-type" name="type" value={data.type} onChange={e => { set("type", e.target.value); setTouched(t => ({ ...t, type: true })); }} onBlur={() => blur("type")} {...aria("type")}>
-          <option value="">Scegli…</option>
-          {TYPES.map(t => <option key={t}>{t}</option>)}
-        </select>
-      ))}
-      {field("message", "Messaggio", <textarea id="cf-message" name="message" rows="5" value={data.message} onChange={e => set("message", e.target.value)} onBlur={() => blur("message")} {...aria("message")} />)}
+      {field("company", "Azienda o attività", <input id="cf-company" name="company" autoComplete="organization" value={data.company} onChange={e => set("company", e.target.value)} />, true)}
+      <div className="cf__row">
+        {field("type", "Tipologia di progetto", (
+          <select id="cf-type" name="type" value={data.type} onChange={e => { set("type", e.target.value); setTouched(t => ({ ...t, type: true })); }} onBlur={() => blur("type")} {...aria("type")}>
+            <option value="">Scegli…</option>
+            {TYPES.map(t => <option key={t}>{t}</option>)}
+          </select>
+        ))}
+        {field("budget", "Budget indicativo", (
+          <select id="cf-budget" name="budget" value={data.budget} onChange={e => set("budget", e.target.value)}>
+            <option value="">Scegli…</option>
+            {BUDGETS.map(t => <option key={t}>{t}</option>)}
+          </select>
+        ), true)}
+      </div>
+      {field("message", "Descrizione del progetto", <textarea id="cf-message" name="message" rows="5" placeholder="Di cosa si occupa la tua attività e cosa vorresti ottenere dal sito?" value={data.message} onChange={e => set("message", e.target.value)} onBlur={() => blur("message")} {...aria("message")} />)}
 
       <div className="cf__hp" aria-hidden="true">
-        <label htmlFor="cf-company">Azienda</label>
-        <input id="cf-company" name="company" tabIndex={-1} autoComplete="off" value={data.company} onChange={e => setData(d => ({ ...d, company: e.target.value }))} />
+        <label htmlFor="cf-website">Sito web</label>
+        <input id="cf-website" name="website" tabIndex={-1} autoComplete="off" value={data.website} onChange={e => setData(d => ({ ...d, website: e.target.value }))} />
       </div>
 
       <div className={`cf__check ${errors.consent ? "is-error" : ""}`}>
         <input id="cf-consent" type="checkbox" checked={data.consent} onChange={e => { set("consent", e.target.checked); setTouched(t => ({ ...t, consent: true })); }} {...aria("consent")} />
-        <label htmlFor="cf-consent">Acconsento a essere ricontattato all'indirizzo email indicato.</label>
+        <label htmlFor="cf-consent">Acconsento a essere ricontattato all'indirizzo email indicato per questa richiesta.</label>
         <span className="cf__err" id="cf-consent-err" aria-live="polite">{errors.consent || ""}</span>
       </div>
 
       <div className="cf__foot">
         <Button type="submit" aria-busy={status.state === "sending" ? "true" : undefined}>
-          {status.state === "sending" ? "Sending…" : direct ? "Send message" : "Send via email"}
+          {status.state === "sending" ? "Invio in corso…" : "Invia la richiesta"}
         </Button>
-        <p className={`cf__status is-${status.state}`} role="status" aria-live="polite">{status.msg}</p>
+        <p className={`cf__status is-${status.state}`} role="status" aria-live="polite">
+          {status.msg === "fail" ? (
+            <>Invio non riuscito. Riprova tra poco oppure scrivici direttamente a <a href={`mailto:${site.email}`}>{site.email}</a>.</>
+          ) : status.msg}
+        </p>
       </div>
     </form>
   );

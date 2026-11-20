@@ -1,0 +1,37 @@
+.studio .shead__title { max-width: 22ch; }
+.studio__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: start; }
+.studio__lead { font: 500 clamp(22px, 2.2vw, 32px)/1.38 var(--f-display); letter-spacing: -0.02em; color: var(--navy); }
+.studio__name { margin-top: 28px; color: var(--muted); max-width: 54ch; padding-left: 20px; border-left: 2px solid var(--blue); }
+
+.studio__card { position: relative; border-radius: var(--radius); padding: clamp(28px, 3vw, 40px); overflow: hidden; }
+.studio__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 60% at 100% 0%, rgba(23, 101, 232, 0.32), transparent 70%);
+  pointer-events: none;
+}
+.studio__sym { position: relative; width: 72px; height: auto; margin-bottom: 32px; }
+.studio__facts { position: relative; margin: 0; display: grid; gap: 0; }
+.studio__facts div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-top: 1px solid rgba(185, 199, 224, 0.16); }
+.studio__facts dt { padding-top: 3px; }
+.studio__facts dd { margin: 0; font-weight: 600; }
+.studio__payoff { position: relative; margin-top: 28px; font-size: 13px; letter-spacing: 0.08em; color: var(--sky); }
+
+.studio__principles { list-style: none; margin: clamp(64px, 8vw, 112px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.pr { padding: 32px clamp(16px, 2.5vw, 36px) 8px 0; }
+.pr + .pr { padding-left: clamp(16px, 2.5vw, 36px); border-left: 1px solid var(--line); }
+.pr__k { color: var(--blue); }
+.pr__t { font-size: clamp(20px, 1.7vw, 24px); letter-spacing: -0.02em; line-height: 1.2; margin: 14px 0 10px; }
+.pr__d { color: var(--muted); font-size: 16px; }
+
+.studio__stack { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: clamp(48px, 6vw, 80px); padding-top: 24px; border-top: 1px solid var(--line); }
+.studio__stack ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.studio__stack li { font-size: 13px; color: var(--navy); }
+
+@media (max-width: 960px) {
+  .studio__grid { grid-template-columns: 1fr; }
+  .studio__principles { grid-template-columns: 1fr; }
+  .pr, .pr + .pr { padding: 28px 0; border-left: 0; }
+  .pr + .pr { border-top: 1px solid var(--line); }
+}
