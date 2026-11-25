@@ -32,7 +32,7 @@ export const site = {
        contactEndpoint = https://<id-progetto>.supabase.co/functions/v1/zefiro-contatti
        supabaseAnonKey = la chiave "anon public" (Project Settings → API). È pubblica per natura.
        Se contactEndpoint è compilato, il sito usa questo al posto di FormSubmit/Web3Forms. */
-  contactEndpoint: "https://cjqvixmpdvewqkhwynxy.supabase.co/functions/v1/zefiro-contatti",
+  contactEndpoint: "https://wqpblitzpxmayeucvasd.supabase.co/functions/v1/zefiro-contatti",
   supabaseAnonKey: "",
 
   /* Alternative senza Supabase:
